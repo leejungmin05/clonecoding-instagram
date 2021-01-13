@@ -19,41 +19,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="380dp"
+        android:layout_marginRight="40dp"
         android:orientation="vertical">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/id" />
+            android:layout_height="match_parent">
 
-        <EditText
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/id" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password"
-            android:layout_marginTop="15dp"/>
+            android:layout_height="match_parent">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:hint="@string/password" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <android.widget.Button
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="15dp"
             android:background="@color/colorEmailSignIn"
-            android:text="@string/signin"/>
+            android:text="@string/signin" />
 
-        <view
+        <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background = "@color/gray"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp"
+            android:background="@color/gray" />
 
         <android.widget.Button
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="25dp"
             android:background="@drawable/btn_signin_facebook"
-            android:text="@string/signin_facebook"/>
+            android:text="@string/signin_facebook" />
 
     </LinearLayout>
 </RelativeLayout>
