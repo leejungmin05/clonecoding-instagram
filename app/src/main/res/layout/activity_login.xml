@@ -29,6 +29,7 @@
             android:layout_height="match_parent">
 
             <EditText
+                android:id="@+id/email_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/id" />
@@ -39,6 +40,8 @@
             android:layout_height="match_parent">
 
             <EditText
+                android:inputType="textPassword"
+                android:id="@+id/password_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -46,6 +49,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <android.widget.Button
+            android:id="@+id/facebook_login_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="15dp"
@@ -59,6 +63,7 @@
             android:background="@color/gray" />
 
         <android.widget.Button
+            android:id="@+id/email_login_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="25dp"
