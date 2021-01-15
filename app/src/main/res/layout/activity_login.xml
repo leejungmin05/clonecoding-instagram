@@ -49,7 +49,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <android.widget.Button
-            android:id="@+id/facebook_login_button"
+            android:id="@+id/email_login_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="15dp"
@@ -63,7 +63,7 @@
             android:background="@color/gray" />
 
         <android.widget.Button
-            android:id="@+id/email_login_button"
+            android:id="@+id/facebook_login_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="25dp"

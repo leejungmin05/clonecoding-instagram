@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
         email_login_button = findViewById(R.id.email_login_button)
         facebook_login_button = findViewById(R.id.facebook_login_button)
         email_login_button.setOnClickListener{
-            signinAndsignup()
+            signinAndSignup()
         }
         facebook_login_button.setOnClickListener{
             //first step
@@ -55,11 +55,11 @@ class LoginActivity : AppCompatActivity() {
 
 
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
         googleSignInClient = GoogleSignIn.getClient(this,gso)
-       // printHashKey()
+        // printHashKey()
         callbackManager = CallbackManager.Factory.create()
 
     }
@@ -83,37 +83,37 @@ class LoginActivity : AppCompatActivity() {
 
     fun facebookLogin() {
         LoginManager.getInstance()
-            .logInWithReadPermissions(this, Arrays.asList("public_profile","email"))
+                .logInWithReadPermissions(this, Arrays.asList("public_profile","email"))
 
         LoginManager.getInstance()
-            .registerCallback(callbackManager, object :FacebookCallback<LoginResult>{
-                override fun onSuccess(result: LoginResult?) {
-                   //second step
-                    handleFacebookAccessToken(result?.accessToken)
-                }
+                .registerCallback(callbackManager, object :FacebookCallback<LoginResult>{
+                    override fun onSuccess(result: LoginResult?) {
+                        //second step
+                        handleFacebookAccessToken(result?.accessToken)
+                    }
 
-                override fun onCancel() {
+                    override fun onCancel() {
 
-                }
+                    }
 
-                override fun onError(error: FacebookException?) {
+                    override fun onError(error: FacebookException?) {
 
-                }
-            })
+                    }
+                })
     }
     fun handleFacebookAccessToken(token: AccessToken?){
         var credential = FacebookAuthProvider.getCredential(token?.token!!)
         auth?.signInWithCredential(credential)
-            ?.addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    //Third Step
-                    //Login
-                    moveMainPage(task.result?.user)
-                } else {
-                    //Show the error message
-                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+                ?.addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        //Third Step
+                        //Login
+                        moveMainPage(task.result?.user)
+                    } else {
+                        //Show the error message
+                        Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+                    }
                 }
-            }
 
     }
 
@@ -134,17 +134,17 @@ class LoginActivity : AppCompatActivity() {
     fun firebaseAuthWithGoogle(account: GoogleSignInAccount?){
         var credential = GoogleAuthProvider.getCredential(account?.idToken,null)
         auth?.signInWithCredential(credential)
-            ?.addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    //Login
-                    moveMainPage(task.result?.user)
-                } else {
-                    //Show the error message
-                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+                ?.addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        //Login
+                        moveMainPage(task.result?.user)
+                    } else {
+                        //Show the error message
+                        Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+                    }
                 }
-            }
     }
-    fun signinAndsignup () {
+    fun signinAndSignup () {
         auth?.createUserWithEmailAndPassword(
             email_edittext.text.toString(),
             password_edittext.text.toString()
@@ -171,6 +171,7 @@ class LoginActivity : AppCompatActivity() {
                     if(task.isSuccessful){
                         //Login
                         moveMainPage(task.result?.user)
+
                     } else {
                         //Show the error message
                         Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
