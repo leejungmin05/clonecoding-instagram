@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity() , BottomNavigationView.OnNavigationItem
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bottom_navigation= findViewById(R.id.bottom_navigation)
         setContentView(R.layout.activity_main)
+        bottom_navigation= findViewById(R.id.bottom_navigation)
         bottom_navigation.setOnNavigationItemSelectedListener(this)
     }
 
