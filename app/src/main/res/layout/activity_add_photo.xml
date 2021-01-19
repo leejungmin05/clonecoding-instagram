@@ -10,10 +10,12 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="35dp">
-        <ImageView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/logo_title"/>
+            android:text="@string/upload_content"
+            android:textSize="25dp"
+            android:textColor="@color/black"/>
     </Toolbar>
     <LinearLayout
         android:id="@+id/toolbar_division"
