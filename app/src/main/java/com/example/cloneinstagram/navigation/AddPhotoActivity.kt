@@ -19,16 +19,17 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import kotlinx.android.synthetic.main.activity_add_photo.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+@Suppress("DEPRECATION")
 class AddPhotoActivity : AppCompatActivity() {
     var PICK_IMAGE_FROM_ALBUM = 0 //request code
     var storage: FirebaseStorage? = null
     var photoUri: Uri? = null
 
-    private lateinit var addphoto_btn_upload: Button
-    private lateinit var addphoto_image: ImageView
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,13 +44,12 @@ class AddPhotoActivity : AppCompatActivity() {
 
         var photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "Image/*"
-        startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
-
+        startActivityForResult(photoPickerIntent,PICK_IMAGE_FROM_ALBUM)
 
         //add image upload event
         addphoto_btn_upload.setOnClickListener {
             contentUpload()
-            addphoto_btn_upload = findViewById(R.id.addphoto_btn_upload)
+
         }
 
     }

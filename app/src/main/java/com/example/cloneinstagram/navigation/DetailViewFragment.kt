@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.navigation.model.ContentDTO
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.item_detail.view.*
 
 class DetailViewFragment : Fragment(){
     var firestore : FirebaseFirestore?= null
     private lateinit var detailviewitem_profile_textview : TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail,container,false)4
+        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail,container,false)
         firestore = FirebaseFirestore.getInstance()
 
         return view
@@ -51,7 +52,7 @@ class DetailViewFragment : Fragment(){
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            var viewHolder = (holder as CustomviewHolder).itemView
+            val viewHolder = (holder as CustomviewHolder).itemView
 
             //UserID
             viewHolder.detailviewitem_profile_textview.text = contentDTOs!![position].userId
