@@ -83,7 +83,7 @@ class AddPhotoActivity : AppCompatActivity() {
         var imageFileName = "IMAGE_" + timestamp + "_.png"
         var storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
-        //promise method (구글 권장 방식)
+       //promise method (구글 권장 방식)
         storageRef?.putFile(photoUri!!)?.continueWithTask { task : Task<UploadTask.TaskSnapshot> ->
             return@continueWithTask storageRef.downloadUrl
         }?.addOnSuccessListener { uri ->
@@ -112,7 +112,7 @@ class AddPhotoActivity : AppCompatActivity() {
 
 
 
-        /*  //Callback method
+        /* //Callback method
           storageRef?.putFile(photoUri!!)?.addOnSuccessListener {
               storageRef.downloadUrl.addOnSuccessListener { uri ->
                   var contentDTO = ContentDTO()
@@ -137,6 +137,6 @@ class AddPhotoActivity : AppCompatActivity() {
 
                   finish()
               }
-          }*/
+          } */
     }
 }
