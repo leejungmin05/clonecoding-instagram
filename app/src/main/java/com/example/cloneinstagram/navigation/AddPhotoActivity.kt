@@ -24,11 +24,13 @@ import kotlinx.android.synthetic.main.activity_add_photo.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Suppress("DEPRECATION")
+
 class AddPhotoActivity : AppCompatActivity() {
     var PICK_IMAGE_FROM_ALBUM = 0 //request code
     var storage: FirebaseStorage? = null
     var photoUri: Uri? = null
+    var auth : FirebaseAuth? = null
+    var firestore : FirebaseFirestore ? =null
 
 
 
@@ -38,15 +40,15 @@ class AddPhotoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_photo)
 
 
-        //initiate storage
+        //initiate
         storage = FirebaseStorage.getInstance()
-
-
+        auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         //Open the album
 
         var photoPickerIntent = Intent(Intent.ACTION_PICK)
-        photoPickerIntent.type = "Image/*"
+        photoPickerIntent.type = "image/*"
         startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
 
 
