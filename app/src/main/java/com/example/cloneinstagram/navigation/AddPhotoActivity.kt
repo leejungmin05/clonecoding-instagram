@@ -43,7 +43,7 @@ class AddPhotoActivity : AppCompatActivity() {
         //Open the album
 
         var photoPickerIntent = Intent(Intent.ACTION_PICK)
-        photoPickerIntent.type = "Image/*"
+        photoPickerIntent.type = "image/*"
         startActivityForResult(photoPickerIntent,PICK_IMAGE_FROM_ALBUM)
 
         //add image upload event
