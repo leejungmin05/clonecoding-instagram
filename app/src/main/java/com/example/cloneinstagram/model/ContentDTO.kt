@@ -1,4 +1,4 @@
-package com.example.cloneinstagram.navigation.model
+package com.example.cloneinstagram.model
 
 data class ContentDTO   (var explain : String? = null, // 컨텐츠 설명 관리
                          var imageUrl : String? = null, // 이미지 주소 관리
