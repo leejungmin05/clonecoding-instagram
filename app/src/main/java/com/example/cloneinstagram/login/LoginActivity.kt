@@ -1,4 +1,4 @@
-package com.example.cloneinstagram
+package com.example.cloneinstagram.login
 
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cloneinstagram.R
+import com.example.cloneinstagram.main.MainActivity
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback

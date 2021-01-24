@@ -1,4 +1,4 @@
-package com.example.cloneinstagram.navigation
+package com.example.cloneinstagram.main.grid
 
 import android.os.Bundle
 import android.view.LayoutInflater

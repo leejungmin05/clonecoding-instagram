@@ -1,4 +1,4 @@
-package com.example.cloneinstagram.navigation
+package com.example.cloneinstagram.main.alarm
 
 import android.os.Bundle
 import android.view.LayoutInflater
