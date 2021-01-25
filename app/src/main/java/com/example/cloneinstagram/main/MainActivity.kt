@@ -60,11 +60,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun initDTO() {
-        TODO("Not yet implemented")
+
     }
 
     private fun initOnClickListener() {
-        TODO("Not yet implemented")
+
     }
 
     private fun initBottomNavigation() {

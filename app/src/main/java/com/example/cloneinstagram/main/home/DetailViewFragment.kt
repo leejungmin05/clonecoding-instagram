@@ -74,12 +74,46 @@ class DetailViewFragment : Fragment() {
             //profileImage
             Glide.with(holder.itemView.context).load(contentDTOs!![position].imageUrl).into(viewholder.detailviewitem_profile_image)
 
-
+            //when the button is clicked
+            viewholder.detailviewitem_favorite_imageview.setOnClickListener {
+                favoriteEvent(position)
+            }
+            // when the page is loaded
+            if(contentDTOs!![position].favorites.containsKey(uid)){
+                //like status
+                viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite)
+                } else{
+                    //unlike status
+                    viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
+                }
             }
 
         override fun getItemCount(): Int {
             return contentDTOs.size
         }
+        fun favoriteEvent(position : Int) {
+            var tsDoc = firestore?.collection("images")?.document(contentUidList[position])
+            firestore?.runTransaction{ transaction->
+
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)
+
+                if(contentDTO!!.favorites.containsKey(uid)){
+                        //when the button is clicked
+                        contentDTO?.favoriteCount = contentDTO?.favoriteCount -1
+                        contentDTO?.favorites.remove(uid)
+                    }else{
+                        //when the button is not clicked
+                        contentDTO?.favoriteCount = contentDTO?.favoriteCount + 1
+                        contentDTO?.favorites[uid!!] = true
+
+                    }
+                transaction.set(tsDoc,contentDTO)
+
+            }
+        }
+
+
 
     }
 
