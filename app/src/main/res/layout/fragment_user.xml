@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <ImageView
-            android:id="@+id/account_iv_profile"
+            android:id="@+id/account_tv_profile"
             android:layout_alignParentLeft="true"
             android:src="@drawable/ic_account"
             android:layout_width="100dp"
@@ -15,13 +16,13 @@
         <Button
             android:id="@+id/account_btn_follow_signout"
             android:text="@string/follow"
-            android:layout_toRightOf="@+id/account_iv_profile"
+            android:layout_toRightOf="@+id/account_tv_profile"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="40dp"/>
         <LinearLayout
             android:gravity="center"
-            android:layout_toRightOf="@+id/account_iv_profile"
+            android:layout_toRightOf="@+id/account_tv_profile"
             android:layout_above="@+id/account_btn_follow_signout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
