@@ -43,7 +43,8 @@
     <string name="alarm_follow">님이 당신의 계정을 팔로워하기 시작했습니다.</string>
 
     <!-- Comment -->
-    <string name="send">보내기</string>
+    <string name="send">게시</string>
+    <string name="logo">로고</string>
 
     <!-- Add Photo -->
     <string name="upload_image">사진 올리기</string>

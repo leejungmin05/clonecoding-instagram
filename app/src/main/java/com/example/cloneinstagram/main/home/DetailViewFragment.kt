@@ -1,5 +1,6 @@
 package com.example.cloneinstagram.main.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -86,6 +87,12 @@ class DetailViewFragment : Fragment() {
                     //unlike status
                     viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
                 }
+            viewholder.detailviewitem_comment_imageview.setOnClickListener { v->
+                var intent = Intent(v.context,CommentActivity::class.java)
+                intent.putExtra("contentUid",contentUidList[position])
+                startActivity(intent)
+
+            }
             }
 
         override fun getItemCount(): Int {
@@ -109,6 +116,7 @@ class DetailViewFragment : Fragment() {
 
                     }
                 transaction.set(tsDoc,contentDTO)
+
 
             }
         }
