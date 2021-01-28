@@ -14,6 +14,7 @@ import com.example.cloneinstagram.main.grid.GridFragment
 import com.example.cloneinstagram.main.upload.AddPhotoActivity
 import com.example.cloneinstagram.main.user.UserFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         supportFragmentManager.beginTransaction().replace(R.id.main_content, newFragment).commit()
         return true
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
