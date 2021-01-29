@@ -29,12 +29,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
             return true
         }
-
+        if(item.itemId== R.id.action_account){
+           var userFragment = UserFragment()
+           var bundle = Bundle()
+           var uid = FirebaseAuth.getInstance().currentUser?.uid
+            bundle.putString("destinationUid",uid)
+            userFragment.arguments = bundle
+            supportFragmentManager.beginTransaction().replace(R.id.main_content, userFragment).commit()
+            return true
+        }
         val newFragment = when (item.itemId) {
             R.id.action_home -> DetailViewFragment()
             R.id.action_search -> GridFragment()
             R.id.action_favorite_alarm -> AlarmFragment()
-            R.id.action_account -> UserFragment()
             else->null
         }?:run {
             return false
