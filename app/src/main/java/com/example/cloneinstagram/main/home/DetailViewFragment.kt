@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cloneinstagram.R
+import com.example.cloneinstagram.main.user.UserFragment
 import com.example.cloneinstagram.model.AlarmDTO
 import com.example.cloneinstagram.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -43,6 +44,9 @@ class DetailViewFragment : Fragment() {
            firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                contentDTOs.clear()
                contentUidList.clear()
+                //Sometimes, this code return null of queryshanpshot when it signout
+               if(querySnapshot == null) return@addSnapshotListener
+
                for(snapshot in querySnapshot!!.documents){
                    var item = snapshot.toObject(ContentDTO::class.java)
                    contentDTOs.add(item!!)
@@ -88,6 +92,16 @@ class DetailViewFragment : Fragment() {
                     //unlike status
                     viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
                 }
+            viewholder.detailviewitem_profile_image.setOnClickListener {
+                var fragment = UserFragment()
+                var bundle = Bundle()
+                bundle.putString("destinationUid",contentDTOs[position].uid)
+                bundle.putString("userId",contentDTOs[position].userId)
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content,fragment)?.commit()
+
+            }
+
             viewholder.detailviewitem_comment_imageview.setOnClickListener { v->
                 var intent = Intent(v.context,CommentActivity::class.java)
                 intent.putExtra("contentUid",contentUidList[position])
