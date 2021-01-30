@@ -6,8 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.AccessToken
@@ -22,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.*
+import kotlinx.android.synthetic.main.activity_login.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -32,19 +31,11 @@ class LoginActivity : AppCompatActivity() {
     var googleSignInClient : GoogleSignInClient? = null
     var GOOGLE_LOGIN_CODE = 9001
     var callbackManager : CallbackManager? = null
-    private lateinit var email_edittext : EditText
-    private lateinit var password_edittext: EditText
-    private lateinit var email_login_button: Button
-    private lateinit var facebook_login_button: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         auth = FirebaseAuth.getInstance()
-        email_edittext = findViewById(R.id.email_edittext)
-        password_edittext = findViewById(R.id.password_edittext)
-        email_login_button = findViewById(R.id.email_login_button)
-        facebook_login_button = findViewById(R.id.facebook_login_button)
         email_login_button.setOnClickListener{
             signinAndSignup()
         }
