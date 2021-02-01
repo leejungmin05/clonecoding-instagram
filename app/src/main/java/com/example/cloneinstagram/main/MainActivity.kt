@@ -74,8 +74,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         )
         initActivity()
     }
-
-
     
     private fun initActivity() {
         initDTO()
