@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    fun facebookLogin() {
+    private fun facebookLogin() {
         LoginManager.getInstance()
                 .logInWithReadPermissions(this, Arrays.asList("public_profile","email"))
 
@@ -129,7 +129,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
-    fun firebaseAuthWithGoogle(account: GoogleSignInAccount?){
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?){
         var credential = GoogleAuthProvider.getCredential(account?.idToken,null)
         auth?.signInWithCredential(credential)
                 ?.addOnCompleteListener { task ->
@@ -142,7 +142,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
     }
-    fun signinAndSignup () {
+    private fun signinAndSignup () {
         auth?.createUserWithEmailAndPassword(
             email_edittext.text.toString(),
             password_edittext.text.toString()
@@ -160,7 +160,7 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
     }
-    fun signinEmail() {
+    private fun signinEmail() {
         auth?.signInWithEmailAndPassword(
             email_edittext.text.toString(),
             password_edittext.text.toString()
@@ -176,7 +176,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
     }
-    fun moveMainPage(user: FirebaseUser?){
+    private fun moveMainPage(user: FirebaseUser?){
         if(user != null) {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
