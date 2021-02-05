@@ -47,7 +47,7 @@
     <string name="logo">로고</string>
 
     <!-- Add Photo -->
-    <string name="upload_image">사진 올리기</string>
+    <string name="upload_image">공유</string>
     <string name="upload_content">새 게시물</string>
     <string name="hint_image_content">문구 입력...</string>
     <string name="upload_success">업로드 성공</string>
