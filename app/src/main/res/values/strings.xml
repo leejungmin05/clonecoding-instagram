@@ -45,6 +45,8 @@
     <!-- Comment -->
     <string name="send">게시</string>
     <string name="logo">로고</string>
+    <string name="comment">댓글</string>
+    <string name="comment_hint">댓글달기...</string>
 
     <!-- Add Photo -->
     <string name="upload_image">공유</string>
@@ -55,6 +57,7 @@
 
     <!-- Toolbar -->
     <string name="back">Back</string>
+
 
     <!-- etc -->
     <item name="visible" type="id" />
