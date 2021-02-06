@@ -74,7 +74,7 @@ class DetailViewRecyclerAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()
             bundle.putString("destinationUid",contentDTOs[position].uid)
             bundle.putString("userId",contentDTOs[position].userId)
             fragment.arguments = bundle
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content,fragment)?.commit()
+            fragment.activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content,fragment)?.commit()
         }
 
         viewholder.detailviewitem_comment_imageview.setOnClickListener { v->
