@@ -59,5 +59,6 @@
     <!-- etc -->
     <item name="visible" type="id" />
     <item name="masked" type="id" />
+    <string name="likes">Likes %1$d</string>
 
 </resources>
