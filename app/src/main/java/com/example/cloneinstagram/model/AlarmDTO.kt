@@ -1,5 +1,8 @@
 package com.example.cloneinstagram.model
 
+
+import kotlinx.android.synthetic.main.item_comment.view.*
+
 data class  AlarmDTO (
     var destinationUid : String? = null,
     var userId : String? = null,
@@ -11,4 +14,7 @@ data class  AlarmDTO (
     var kind : Int? = null,
     var message : String? = null,
     var timestamp : Long? = null
+
+
 )
+

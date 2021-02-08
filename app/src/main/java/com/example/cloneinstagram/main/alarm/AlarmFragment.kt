@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_alarm.view.*
 import kotlinx.android.synthetic.main.item_comment.view.*
 
 class AlarmFragment : Fragment(){
-
+    var firestore: FirebaseFirestore? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_alarm,container,false)
@@ -28,13 +28,14 @@ class AlarmFragment : Fragment(){
 
         return view
     }
+    var alarmDTOList : ArrayList<AlarmDTO> = arrayListOf()
 
     private fun getDataList() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid
-        var alarmDTOList : ArrayList<AlarmDTO> = arrayListOf()
 
-        FirebaseFirestore.getInstance().collection("alarms").whereEqualTo("destinationUid",uid)
-            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+
+        firestore?.collection("alarms")?.whereEqualTo("destinationUid",uid)
+            ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             alarmDTOList.clear()
 
             if(querySnapshot ==null) return@addSnapshotListener

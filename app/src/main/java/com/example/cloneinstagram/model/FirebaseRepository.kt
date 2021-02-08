@@ -1,8 +1,11 @@
 package com.example.cloneinstagram.model
 
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.item_comment.view.*
 
 object FirebaseRepository {
     fun toggleFavorite(
@@ -41,4 +44,6 @@ object FirebaseRepository {
     private val email = FirebaseAuth.getInstance().currentUser?.email
 
     val ALARMS = "alarms"
+
+
 }
