@@ -18,13 +18,16 @@ import kotlinx.android.synthetic.main.item_comment.view.*
 
 class AlarmFragment : Fragment(){
     var firestore: FirebaseFirestore? = null
+    private var recyclerAdapter: AlarmRecyclerAdapter by lazy {
+        AlarmRecyclerAdapter(alarmDTOList)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_alarm,container,false)
 
         getDataList()
-        view.alarmfragment_recyclerview.adapter = AlarmRecyclerAdapter()
-        view.alarmfragment_recyclerview.layoutManager = LinearLayoutManager(activity)
+        view.alarmfragment_recyclerview.adapter = recyclerAdapter
+        view.alarmfragment_recyclerview.layoutManager = LinearLayoutManager(context)
 
         return view
     }
@@ -32,8 +35,6 @@ class AlarmFragment : Fragment(){
 
     private fun getDataList() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid
-
-
         firestore?.collection("alarms")?.whereEqualTo("destinationUid",uid)
             ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             alarmDTOList.clear()
@@ -41,8 +42,10 @@ class AlarmFragment : Fragment(){
             if(querySnapshot ==null) return@addSnapshotListener
 
             for(snapshot in querySnapshot.documents){
-                alarmDTOList.add(snapshot.toObject(AlarmDTO::class.java)!!)
+                var item = snapshot.toObject(AlarmDTO::class.java)
+                alarmDTOList.add(item!!)
             }
+                recyclerAdapter.notifyDataSetChanged()
         }
     }
 
