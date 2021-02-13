@@ -28,24 +28,26 @@ class AlarmRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         var view = holder.itemView
 
-        FirebaseFirestore.getInstance().collection("profileImages")
+        firestore.collection("profileImages")
             .document(alarmDTOList[position].uid!!).get().addOnCompleteListener { task ->
-            if(task.isSuccessful){
-                val url = task.result!!["image"]
-                Glide.with(view.context).load(url).apply(RequestOptions().circleCrop()).into(view.commentviewitem_imageview_profile)
+                if (task.isSuccessful) {
+                    val url = task.result!!["image"]
+                    Glide.with(view.context).load(url).apply(RequestOptions().circleCrop())
+                        .into(view.commentviewitem_imageview_profile)
+                }
             }
-        }
-        when(alarmDTOList[position].kind){
+        when (alarmDTOList[position].kind) {
             0 -> {
-                val str_0 = alarmDTOList[position].userId + getString(R.string.alarm_favorite)
-                view.commentviewitem_textview_profile.text= str_0
+                val str_0 = alarmDTOList[position].userId + view.context.getString(R.string.alarm_favorite)
+                view.commentviewitem_textview_profile.text = str_0
             }
             1 -> {
-                val str_0 = alarmDTOList[position].userId + " " +getString(R.string.alarm_comment) + " of " + alarmDTOList[position].message
+                val str_0 =
+                    alarmDTOList[position].userId + " " + view.context.getString(R.string.alarm_comment) + " of " + alarmDTOList[position].message
                 view.commentviewitem_textview_profile.text = str_0
             }
             2 -> {
-                val str_0 = alarmDTOList[position].userId + " " + getString(R.string.alarm_follow)
+                val str_0 = alarmDTOList[position].userId + " " + view.context.getString(R.string.alarm_follow)
                 view.commentviewitem_textview_profile.text = str_0
             }
         }
