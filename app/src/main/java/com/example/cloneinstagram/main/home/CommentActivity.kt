@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.model.AlarmDTO
+import com.example.cloneinstagram.model.AlarmKind
 import com.example.cloneinstagram.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -45,7 +46,7 @@ class CommentActivity : AppCompatActivity() {
         var alarmDTO = AlarmDTO()
         alarmDTO.destinationUid = destinationUid
         alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
-        alarmDTO.kind = 1
+        alarmDTO.kind = AlarmKind.COMMENT
         alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
         alarmDTO.timestamp = System.currentTimeMillis()
         alarmDTO.message = message

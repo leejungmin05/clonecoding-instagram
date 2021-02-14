@@ -12,35 +12,49 @@ object FirebaseRepository {
         contentDTO: ContentDTO,
         documentId: String
     ) {
-        firestore.runTransaction{ transaction->
-            if(contentDTO.favorites.containsKey(uid)){
+        firestore.runTransaction { transaction ->
+            if (contentDTO.favorites.containsKey(uid)) {
                 //when the button is clicked
-                contentDTO.favoriteCount = contentDTO.favoriteCount -1
+                contentDTO.favoriteCount = contentDTO.favoriteCount - 1
                 contentDTO.favorites.remove(uid)
-            }else{
+            } else {
                 //when the button is not clicked
                 contentDTO.favoriteCount = contentDTO.favoriteCount + 1
                 contentDTO.favorites[uid] = true
                 favoriteAlarm(contentDTO.uid!!)
             }
-            transaction.set(firestore.document(documentId),contentDTO)
+            transaction.set(firestore.document(documentId), contentDTO)
         }
     }
 
-    private fun favoriteAlarm(destinationUid : String) {
+    private fun favoriteAlarm(destinationUid: String) {
         val alarmDTO = AlarmDTO(
             destinationUid,
             email,
             uid,
-            0,
+            AlarmKind.LIKE,
             "",
             System.currentTimeMillis()
         )
         firestore.collection(ALARMS).document().set(alarmDTO)
     }
 
+    fun getDataList(listener: (List<ContentDTO>, List<String>) -> Unit) {
+        firestore.collection("images").orderBy("timestamp")
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                //Sometimes, this code return null of queryshanpshot when it signout
+                if (querySnapshot == null) return@addSnapshotListener
+
+                val contentDTOList = querySnapshot.toObjects(ContentDTO::class.java)
+                val snapshotIdList = querySnapshot.documents.map { documentSnapshot ->
+                    documentSnapshot.id
+                }
+                listener.invoke(contentDTOList, snapshotIdList)
+            }
+    }
+
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private val uid = FirebaseAuth.getInstance().currentUser?.uid?:" "
+    val uid = FirebaseAuth.getInstance().currentUser?.uid ?: " "
     private val email = FirebaseAuth.getInstance().currentUser?.email
 
     val ALARMS = "alarms"

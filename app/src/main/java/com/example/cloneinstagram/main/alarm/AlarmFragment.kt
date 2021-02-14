@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_comment.view.*
 
 class AlarmFragment : Fragment(){
     var firestore: FirebaseFirestore? = null
-    private var recyclerAdapter: AlarmRecyclerAdapter by lazy {
+    private val recyclerAdapter: AlarmRecyclerAdapter by lazy {
         AlarmRecyclerAdapter(alarmDTOList)
     }
 
@@ -50,3 +50,4 @@ class AlarmFragment : Fragment(){
     }
 
 }
+

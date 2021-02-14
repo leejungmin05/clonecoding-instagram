@@ -2,6 +2,7 @@ package com.example.cloneinstagram.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,13 +22,17 @@ import kotlinx.android.synthetic.main.item_detail.view.*
  * 가독성! 높이는 방법 고민하기
  * string 분리
  * etc..
+ *
+ * java collection List, Map, Set
+ * Array
+ * List vs Array
+ * List vs ArrayList
  */
 class DetailViewRecyclerAdapter(
-    private val contentDTOs: ArrayList<ContentDTO>,
-    private val ContentDIdList: ArrayList<String>
+    private val contentDTOs: List<ContentDTO>,
+    private val ContentDIdList: List<String>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var uid: String? = null
-
+    private var uid: String = FirebaseRepository.uid
     companion object {
         const val TAG = "DetailViewRecyclerAdapter"
     }
@@ -49,9 +54,6 @@ class DetailViewRecyclerAdapter(
            viewHolder.context.resources.getString(R.string.likes,contentDTOs[position].favoriteCount)
         Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl)
             .into(viewHolder.detailviewitem_profile_image)
-        viewHolder.detailviewitem_favorite_imageview.setOnClickListener {
-            favoriteEvent(position)
-        }
         // when the page is loaded
         if (contentDTOs[position].favorites.containsKey(uid)) {
             //like status
@@ -61,6 +63,10 @@ class DetailViewRecyclerAdapter(
             viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
         }
 
+
+        viewHolder.detailviewitem_favorite_imageview.setOnClickListener {
+            favoriteEvent(position)
+        }
         viewHolder.detailviewitem_profile_image.setOnClickListener {
             val fragment = UserFragment()
             val bundle = Bundle()
@@ -85,6 +91,8 @@ class DetailViewRecyclerAdapter(
     }
 
     private fun favoriteEvent(position: Int) {
+        Log.d("DetailView","Like")
         FirebaseRepository.toggleFavorite(contentDTOs[position], ContentDIdList[position])
+        notifyItemChanged(position)
     }
 }

@@ -16,6 +16,7 @@ import com.example.cloneinstagram.R
 import com.example.cloneinstagram.login.LoginActivity
 import com.example.cloneinstagram.main.MainActivity
 import com.example.cloneinstagram.model.AlarmDTO
+import com.example.cloneinstagram.model.AlarmKind
 import com.example.cloneinstagram.model.ContentDTO
 import com.example.cloneinstagram.model.FollowDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -195,7 +196,7 @@ class UserFragment : Fragment() {
         alarmDTO.destinationUid = destinationUid
         alarmDTO.userId = auth?.currentUser?.email
         alarmDTO.uid = auth?.currentUser?.uid
-        alarmDTO.kind = 2
+        alarmDTO.kind = AlarmKind.FOLLOW
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }

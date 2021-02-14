@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
+import com.example.cloneinstagram.extensions.invisible
+import com.example.cloneinstagram.extensions.likeUnit
 import com.example.cloneinstagram.model.AlarmDTO
+import com.example.cloneinstagram.model.AlarmKind
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.item_comment.view.*
 
@@ -37,21 +40,21 @@ class AlarmRecyclerAdapter(
                 }
             }
         when (alarmDTOList[position].kind) {
-            0 -> {
+            AlarmKind.LIKE -> {
                 val str_0 = alarmDTOList[position].userId + view.context.getString(R.string.alarm_favorite)
                 view.commentviewitem_textview_profile.text = str_0
             }
-            1 -> {
+            AlarmKind.COMMENT -> {
                 val str_0 =
                     alarmDTOList[position].userId + " " + view.context.getString(R.string.alarm_comment) + " of " + alarmDTOList[position].message
                 view.commentviewitem_textview_profile.text = str_0
             }
-            2 -> {
+            AlarmKind.FOLLOW -> {
                 val str_0 = alarmDTOList[position].userId + " " + view.context.getString(R.string.alarm_follow)
                 view.commentviewitem_textview_profile.text = str_0
             }
         }
-        view.commentviewitem_textview_comment.visibility = View.INVISIBLE
+        view.commentviewitem_textview_comment.invisible()
     }
 
     override fun getItemCount(): Int {
