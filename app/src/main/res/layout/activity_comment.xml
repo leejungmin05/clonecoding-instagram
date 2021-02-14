@@ -8,7 +8,7 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbar_comment"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:background="@color/colorWhite"
@@ -19,15 +19,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/toolbar_comment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/comment"
         android:textColor="@color/black"
         android:textSize="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_comment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@+id/toolbar_comment"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -37,7 +37,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_comment">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -8,7 +8,7 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
+        android:id="@+id/toolbar_content"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:background="@color/white"
@@ -20,21 +20,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/toolbar_content_text"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:text="@string/upload_content"
         android:textColor="@color/black"
         android:textSize="25dp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar2"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar2"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_content"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar_content"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/toolbar2"
+        app:layout_constraintStart_toStartOf="@+id/toolbar_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editText"
+        android:id="@+id/content_text"
         android:layout_width="300dp"
         android:layout_height="0dp"
         android:layout_marginStart="108dp"
@@ -42,7 +42,7 @@
         android:hint="@string/hint_image_content"
         app:hintTextColor="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_content">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/addphoto_edit_explain"
@@ -56,9 +56,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/editText"
+        app:layout_constraintEnd_toStartOf="@+id/content_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_content" />
 
     <Button
         android:id="@+id/addphoto_btn_upload"
@@ -67,10 +67,10 @@
         android:backgroundTint="#FFFFFF"
         android:text="@string/upload_image"
         android:textColor="#041FC3"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_content_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.951"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/toolbar_content_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.6" />
 
