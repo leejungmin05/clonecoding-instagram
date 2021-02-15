@@ -18,12 +18,12 @@ import kotlinx.android.synthetic.main.item_comment.view.*
 
 class AlarmFragment : Fragment(){
     var firestore: FirebaseFirestore? = null
-    private var recyclerAdapter: AlarmRecyclerAdapter by lazy {
+    private val recyclerAdapter: AlarmRecyclerAdapter by lazy {
         AlarmRecyclerAdapter(alarmDTOList)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_alarm,container,false)
+        val view = LayoutInflater.from(activity).inflate(R.layout.fragment_alarm,container,false)
 
         getDataList()
         view.alarmfragment_recyclerview.adapter = recyclerAdapter
@@ -42,7 +42,7 @@ class AlarmFragment : Fragment(){
             if(querySnapshot ==null) return@addSnapshotListener
 
             for(snapshot in querySnapshot.documents){
-                var item = snapshot.toObject(AlarmDTO::class.java)
+                val item = snapshot.toObject(AlarmDTO::class.java)
                 alarmDTOList.add(item!!)
             }
                 recyclerAdapter.notifyDataSetChanged()

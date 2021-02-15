@@ -19,14 +19,14 @@ class AlarmRecyclerAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var view = LayoutInflater.from(parent.context).inflate(R.layout.item_comment, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_comment, parent, false)
         return CustomViewHolder(view)
     }
 
     inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        var view = holder.itemView
+        val view = holder.itemView
 
         firestore.collection("profileImages")
             .document(alarmDTOList[position].uid!!).get().addOnCompleteListener { task ->
