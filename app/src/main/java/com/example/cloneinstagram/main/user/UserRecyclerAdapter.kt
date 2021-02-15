@@ -15,9 +15,9 @@ class UserRecyclerAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        var width = parent.context.resources.displayMetrics.widthPixels /3
+        val width = parent.context.resources.displayMetrics.widthPixels /3
 
-        var imageview = ImageView(parent.context)
+        val imageview = ImageView(parent.context)
         imageview.layoutParams = LinearLayoutCompat.LayoutParams(width,width)
         return CustomViewHolder(imageview)
     }

@@ -15,10 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.login.LoginActivity
 import com.example.cloneinstagram.main.MainActivity
-import com.example.cloneinstagram.model.AlarmDTO
-import com.example.cloneinstagram.model.AlarmKind
-import com.example.cloneinstagram.model.ContentDTO
-import com.example.cloneinstagram.model.FollowDTO
+import com.example.cloneinstagram.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
@@ -47,13 +44,14 @@ class UserFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        getDataList()
+
         fragmentView =
             LayoutInflater.from(activity).inflate(R.layout.fragment_user, container, false)
         uid = arguments?.getString("destinationUid")
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         currentUserUid = auth?.currentUser?.uid
+        getUidDataList()
 
         if (uid == currentUserUid) {
             //Mypage
@@ -170,12 +168,16 @@ class UserFragment : Fragment() {
                 //it add my follower when i don't follow a third person
                 followDTO!!.followerCount = followDTO!!.followerCount + 1
                 followDTO!!.followers[currentUserUid!!] = true
-                follwerAlarm(uid!!)
+                followerAlarm(uid!!)
             }
             transaction.set(tsDocFollower, followDTO!!)
             return@runTransaction
         }
     }
+    //private fun requestFollow() {
+    //    FirebaseRepository.requestFollow(contentDTOs[],)
+    //}
+
 
     private fun getProfileImage() {
         firestore?.collection("profileImages")?.document(uid!!)
@@ -191,35 +193,18 @@ class UserFragment : Fragment() {
     }
 
 
-    private fun follwerAlarm(destinationUid: String) {
-        var alarmDTO = AlarmDTO()
-        alarmDTO.destinationUid = destinationUid
-        alarmDTO.userId = auth?.currentUser?.email
-        alarmDTO.uid = auth?.currentUser?.uid
-        alarmDTO.kind = AlarmKind.FOLLOW
-        alarmDTO.timestamp = System.currentTimeMillis()
-        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
-    }
-
 
     var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
 
 
-    private fun getDataList() {
-        firestore?.collection("images")?.whereEqualTo("uid", uid)
-            ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                contentDTOs.clear()
-                if (querySnapshot == null) return@addSnapshotListener
+    private fun getUidDataList() {
+        FirebaseRepository.getUidDataList { contentDTOList ->
+            contentDTOs.clear()
+            contentDTOs.addAll(contentDTOList)
+            fragmentView?.account_tv_post_count?.text = contentDTOs.size.toString()
+            recyclerAdapter.notifyDataSetChanged()
+        }
 
-                //get data
-                for (snapshot in querySnapshot.documents) {
-                    var item = snapshot.toObject(ContentDTO::class.java)
-                    contentDTOs.add(item!!)
-                }
-                fragmentView?.account_tv_post_count?.text = contentDTOs.size.toString()
-
-            }
-        recyclerAdapter.notifyDataSetChanged()
     }
 
 }
