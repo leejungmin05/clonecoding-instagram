@@ -42,44 +42,44 @@ object FirebaseRepository {
 
 
     fun requestFollow(followDTO: FollowDTO) {
-        val tsDocFollowing = firestore.collection(USERS).document(currentUserUid!!)
+        //내가 상대방 누구를 팔로우 하는지
         firestore.runTransaction { transaction ->
-            if (followDTO == null) {
+            /*if (followDTO == null) {
                 followDTO.followingCount = 1
                 followDTO.followers[uid] = true
                 return@runTransaction
-            }
+            }*/
             if (followDTO.followings.containsKey(uid)) {
-                //it remove following third person when a third person follow me
+                //상대방을 내가 팔로우 한 상태
                 followDTO.followingCount = followDTO.followingCount - 1
                 followDTO.followings.remove(uid)
             } else {
-                //it add following third person when a third person do not follow me
+                //상대방을 팔로우를 안한 상태
                 followDTO.followingCount = followDTO.followingCount + 1
                 followDTO.followings[uid] = true
             }
-            transaction.set(tsDocFollowing, followDTO)
+            transaction.set(firestore.document(currentUserUid!!), followDTO)
             return@runTransaction
         }
-        //save data to third account
-        val tsDocFollower = firestore.collection("USERS").document(uid)
+
+        //내가 팔로우 한 상대방 계정이 누구(제3자)를 팔로우 하는지
         firestore.runTransaction { transaction ->
-            if (followDTO == null) {
+           /* if (followDTO == null) {
                 followDTO.followerCount = 1
-                followDTO.followers[currentUserUid] = true
+                followDTO.followers[currentUserUid!!] = true
                 return@runTransaction
-            }
+            }*/
             if (followDTO.followers.containsKey(currentUserUid)) {
-                //it cancel my follower when i follow a third person
+                //상대방 계정에 내가 팔로우 한 상태
                 followDTO.followerCount = followDTO.followerCount - 1
                 followDTO.followers.remove(currentUserUid)
             } else {
-                //it add my follower when i don't follow a third person
+                //상대방 계정 팔로우 안한 상태
                 followDTO.followerCount = followDTO.followerCount + 1
-                followDTO.followers[currentUserUid] = true
+                followDTO.followers[currentUserUid!!] = true
                 followerAlarm(uid)
             }
-            transaction.set(tsDocFollower, followDTO)
+            transaction.set(firestore.document(uid), followDTO)
             return@runTransaction
         }
     }
@@ -101,7 +101,6 @@ object FirebaseRepository {
     fun getDataList(listener: (List<ContentDTO>, List<String>) -> Unit) {
         firestore.collection(IMAGES).orderBy("timestamp")
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                //Sometimes, this code return null of queryshanpshot when it signout
                 if (querySnapshot == null) return@addSnapshotListener
 
                 val contentDTOList = querySnapshot.toObjects(ContentDTO::class.java)

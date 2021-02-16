@@ -124,7 +124,7 @@ class UserFragment : Fragment() {
 
 
     private fun requestFollow() {
-        //FirebaseRepository.requestFollow()
+        FirebaseRepository.requestFollow(FollowDTO())
     }
 
 
