@@ -17,9 +17,9 @@ class UserRecyclerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val width = parent.context.resources.displayMetrics.widthPixels /3
 
-        val imageview = ImageView(parent.context)
-        imageview.layoutParams = LinearLayoutCompat.LayoutParams(width,width)
-        return CustomViewHolder(imageview)
+        val imageView = ImageView(parent.context)
+        imageView.layoutParams = LinearLayoutCompat.LayoutParams(width,width)
+        return CustomViewHolder(imageView)
     }
     inner class CustomViewHolder(var imageview: ImageView) : RecyclerView.ViewHolder(imageview){
 
@@ -34,4 +34,6 @@ class UserRecyclerAdapter(
         Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).apply(
             RequestOptions().centerCrop()).into(imageview)
     }
+
+
 }

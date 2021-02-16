@@ -54,7 +54,7 @@ class UserFragment : Fragment() {
         getUidDataList()
 
         if (uid == currentUserUid) {
-            //Mypage
+            //My page
             fragmentView?.account_btn_follow_signout?.text = getString(R.string.signout)
             fragmentView?.account_btn_follow_signout?.setOnClickListener {
                 activity?.finish()
@@ -65,13 +65,13 @@ class UserFragment : Fragment() {
             //otherUser
             fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
             val mainActivity = (activity as MainActivity)
-            mainActivity?.toolbar_username?.text = arguments?.getString("userId")
-            mainActivity?.toolbar_btn_back?.setOnClickListener {
+            mainActivity.toolbar_username?.text = arguments?.getString("userId")
+            mainActivity.toolbar_btn_back?.setOnClickListener {
                 mainActivity.bottom_navigation.selectedItemId = R.id.action_home
             }
-            mainActivity?.toolbar_title_image?.visibility = View.GONE
-            mainActivity?.toolbar_username?.visibility = View.VISIBLE
-            mainActivity?.toolbar_btn_back?.visibility = View.VISIBLE
+            mainActivity.toolbar_title_image?.visibility = View.GONE
+            mainActivity.toolbar_username?.visibility = View.VISIBLE
+            mainActivity.toolbar_btn_back?.visibility = View.VISIBLE
             fragmentView?.account_btn_follow_signout?.setOnClickListener {
                 requestFollow()
             }
@@ -96,12 +96,12 @@ class UserFragment : Fragment() {
                 val followDTO = documentSnapshot.toObject(FollowDTO::class.java)
                 if (followDTO?.followingCount != null) {
                     fragmentView?.account_tv_following_count?.text =
-                        followDTO?.followingCount?.toString()
+                        followDTO.followingCount.toString()
                 }
                 if (followDTO?.followerCount != null) {
                     fragmentView?.account_tv_follower_count?.text =
-                        followDTO?.followerCount?.toString()
-                    if (followDTO?.followers?.containsKey(currentUserUid!!)) {
+                        followDTO.followerCount.toString()
+                    if (followDTO.followers.containsKey(currentUserUid!!)) {
                         fragmentView?.account_btn_follow_signout?.text =
                             getString(R.string.follow_cancel)
                         fragmentView?.account_btn_follow_signout?.background?.setColorFilter(
@@ -122,61 +122,10 @@ class UserFragment : Fragment() {
     }
 
 
+
     private fun requestFollow() {
-        //save data to my account
-        val tsDocFollowing = firestore?.collection("users")?.document(currentUserUid!!)
-        firestore?.runTransaction { transaction ->
-            var followDTO = transaction.get(tsDocFollowing!!).toObject(FollowDTO::class.java)
-            if (followDTO == null) {
-                followDTO = FollowDTO()
-                followDTO!!.followingCount = 1
-                followDTO!!.followers[uid!!] = true
-
-                transaction.set(tsDocFollowing, followDTO)
-                return@runTransaction
-            }
-            if (followDTO.followings.containsKey(uid)) {
-                //it remoe following third person when a third person follow me
-                followDTO?.followingCount = followDTO?.followingCount - 1
-                followDTO?.followings?.remove(uid)
-            } else {
-                //it add following third person when a third person do not follow me
-                followDTO?.followingCount = followDTO?.followingCount + 1
-                followDTO?.followings[uid!!] = true
-
-            }
-            transaction.set(tsDocFollowing, followDTO)
-            return@runTransaction
-        }
-        //save data to third account
-        val tsDocFollower = firestore?.collection("users")?.document(uid!!)
-        firestore?.runTransaction { transaction ->
-            var followDTO = transaction.get(tsDocFollower!!).toObject(FollowDTO::class.java)
-            if (followDTO == null) {
-                followDTO = FollowDTO()
-                followDTO!!.followerCount = 1
-                followDTO!!.followers[currentUserUid!!] = true
-
-                transaction.set(tsDocFollower, followDTO!!)
-                return@runTransaction
-            }
-            if (followDTO!!.followers.containsKey(currentUserUid)) {
-                //it cancel my follwer when i follow a third person
-                followDTO!!.followerCount = followDTO!!.followerCount - 1
-                followDTO!!.followers.remove(currentUserUid!!)
-            } else {
-                //it add my follower when i don't follow a third person
-                followDTO!!.followerCount = followDTO!!.followerCount + 1
-                followDTO!!.followers[currentUserUid!!] = true
-                followerAlarm(uid!!)
-            }
-            transaction.set(tsDocFollower, followDTO!!)
-            return@runTransaction
-        }
+        //FirebaseRepository.requestFollow()
     }
-    //private fun requestFollow() {
-    //    FirebaseRepository.requestFollow(contentDTOs[],)
-    //}
 
 
     private fun getProfileImage() {
@@ -184,7 +133,7 @@ class UserFragment : Fragment() {
             ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
                 if (documentSnapshot == null) return@addSnapshotListener
                 if (documentSnapshot.data != null) {
-                    var url = documentSnapshot?.data!!["image"]
+                    val url = documentSnapshot.data!!["image"]
                     Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
                         .into(fragmentView?.account_iv_profile!!)
                 }

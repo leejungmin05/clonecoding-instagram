@@ -5,6 +5,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_user.view.*
 import kotlinx.android.synthetic.main.item_comment.view.*
 
 object FirebaseRepository {
@@ -69,7 +70,7 @@ object FirebaseRepository {
                 return@runTransaction
             }
             if (followDTO.followers.containsKey(currentUserUid)) {
-                //it cancel my follwer when i follow a third person
+                //it cancel my follower when i follow a third person
                 followDTO.followerCount = followDTO.followerCount - 1
                 followDTO.followers.remove(currentUserUid)
             } else {
@@ -94,6 +95,7 @@ object FirebaseRepository {
         )
         firestore.collection(ALARMS).document().set(alarmDTO)
     }
+
 
 
     fun getDataList(listener: (List<ContentDTO>, List<String>) -> Unit) {
@@ -128,5 +130,6 @@ object FirebaseRepository {
     val ALARMS = "alarms"
     val USERS = "users"
     val IMAGES = "images"
+    val PROFILE = "profileImages"
 
 }
