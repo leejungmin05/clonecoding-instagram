@@ -59,11 +59,11 @@ class AlarmRecyclerAdapter(
         return alarmDTOList.size
     }
 
-    val alarmFavorite = "님이 좋아요를 눌렀습니다."
-    val alarmComment = "메세지를 남겼습니다."
-    val alarmFollow = "님이 당신의 계정을 팔로워하기 시작했습니다."
-    val PROFILE = "profileImages"
-    val IMAGE = "image"
+    private val alarmFavorite = "님이 좋아요를 눌렀습니다."
+    private val alarmComment = "메세지를 남겼습니다."
+    private val alarmFollow = "님이 당신의 계정을 팔로워하기 시작했습니다."
+    private val PROFILE = "profileImages"
+    private val IMAGE = "image"
 
 }
 
