@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
+import com.example.cloneinstagram.extensions.invisible
 import com.example.cloneinstagram.model.AlarmDTO
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.item_comment.view.*
@@ -28,10 +29,10 @@ class AlarmRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val view = holder.itemView
 
-        firestore.collection("profileImages")
+        firestore.collection(PROFILE)
             .document(alarmDTOList[position].uid!!).get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val url = task.result!!["image"]
+                    val url = task.result!![IMAGE]
                     Glide.with(view.context).load(url).apply(RequestOptions().circleCrop())
                         .into(view.commentviewitem_imageview_profile)
                 }
@@ -51,7 +52,7 @@ class AlarmRecyclerAdapter(
                 view.commentviewitem_textview_profile.text = str_0
             }
         }
-        view.commentviewitem_textview_comment.visibility = View.INVISIBLE
+        view.commentviewitem_textview_comment.invisible()
     }
 
     override fun getItemCount(): Int {
@@ -61,6 +62,8 @@ class AlarmRecyclerAdapter(
     val alarmFavorite = "님이 좋아요를 눌렀습니다."
     val alarmComment = "메세지를 남겼습니다."
     val alarmFollow = "님이 당신의 계정을 팔로워하기 시작했습니다."
+    val PROFILE = "profileImages"
+    val IMAGE = "image"
 
 }
 
