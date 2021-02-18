@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="@string/upload_content"
         android:textColor="@color/black"
-        android:textSize="25dp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar_content"
         app:layout_constraintEnd_toEndOf="@+id/toolbar_content"
         app:layout_constraintHorizontal_bias="0.5"
