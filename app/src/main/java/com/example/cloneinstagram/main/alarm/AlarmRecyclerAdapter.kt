@@ -38,16 +38,16 @@ class AlarmRecyclerAdapter(
             }
         when (alarmDTOList[position].kind) {
             0 -> {
-                val str_0 = alarmDTOList[position].userId + view.context.getString(R.string.alarm_favorite)
+                val str_0 = alarmDTOList[position].userId + alarmFavorite
                 view.commentviewitem_textview_profile.text = str_0
             }
             1 -> {
                 val str_0 =
-                    alarmDTOList[position].userId + " " + view.context.getString(R.string.alarm_comment) + " of " + alarmDTOList[position].message
+                    alarmDTOList[position].userId + " " + alarmComment + " of " + alarmDTOList[position].message
                 view.commentviewitem_textview_profile.text = str_0
             }
             2 -> {
-                val str_0 = alarmDTOList[position].userId + " " + view.context.getString(R.string.alarm_follow)
+                val str_0 = alarmDTOList[position].userId + " " + alarmFollow
                 view.commentviewitem_textview_profile.text = str_0
             }
         }
@@ -58,6 +58,9 @@ class AlarmRecyclerAdapter(
         return alarmDTOList.size
     }
 
+    val alarmFavorite = "님이 좋아요를 눌렀습니다."
+    val alarmComment = "메세지를 남겼습니다."
+    val alarmFollow = "님이 당신의 계정을 팔로워하기 시작했습니다."
 
 }
 
