@@ -39,17 +39,17 @@ class AlarmRecyclerAdapter(
             }
         when (alarmDTOList[position].kind) {
             0 -> {
-                val str_0 = alarmDTOList[position].userId + alarmFavorite
-                view.commentviewitem_textview_profile.text = str_0
+                val str = alarmDTOList[position].userId + alarmFavorite
+                view.commentviewitem_textview_profile.text = str
             }
             1 -> {
-                val str_0 =
+                val str =
                     alarmDTOList[position].userId + " " + alarmComment + " of " + alarmDTOList[position].message
-                view.commentviewitem_textview_profile.text = str_0
+                view.commentviewitem_textview_profile.text = str
             }
             2 -> {
-                val str_0 = alarmDTOList[position].userId + " " + alarmFollow
-                view.commentviewitem_textview_profile.text = str_0
+                val str = alarmDTOList[position].userId + " " + alarmFollow
+                view.commentviewitem_textview_profile.text = str
             }
         }
         view.commentviewitem_textview_comment.invisible()
