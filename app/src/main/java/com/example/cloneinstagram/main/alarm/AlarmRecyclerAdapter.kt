@@ -33,13 +33,13 @@ class AlarmRecyclerAdapter(
         }
         val alarmText = when (alarmDTOList[position].kind) {
             AlarmKind.LIKE -> {
-                alarmDTOList[position].userId + view.context.getString(R.string.alarm_favorite)
+                view.context.resources.getString(R.string.alarm_favorite,alarmDTOList[position].userId)
             }
             AlarmKind.COMMENT -> {
-                alarmDTOList[position].userId + " " + alarmComment + " of " + alarmDTOList[position].message
+                view.context.resources.getString(R.string.alarm_comment,alarmDTOList[position].userId)
             }
             AlarmKind.FOLLOW -> {
-                alarmDTOList[position].userId + " " + view.context.getString(R.string.alarm_follow)
+                view.context.resources.getString(R.string.alarm_follow,alarmDTOList[position].userId)
             }
             else -> ""
         }
@@ -51,7 +51,7 @@ class AlarmRecyclerAdapter(
         return alarmDTOList.size
     }
 
-    private val alarmComment = "메세지를 남겼습니다."
+
 }
 
 
