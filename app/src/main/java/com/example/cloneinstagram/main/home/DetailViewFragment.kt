@@ -8,15 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.model.ContentDTO
+import com.example.cloneinstagram.model.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 
 class DetailViewFragment : Fragment() {
-    var firestore: FirebaseFirestore? = null
-    var uid: String? = null
     private val recyclerAdapter: DetailViewRecyclerAdapter by lazy {
-        DetailViewRecyclerAdapter(contentDTOs, contentUidList)
+        DetailViewRecyclerAdapter(contentDTOs, contentUids)
     }
 
     override fun onCreateView(
@@ -24,36 +23,24 @@ class DetailViewFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
-
-        uid = FirebaseAuth.getInstance().currentUser?.uid
-
-        getDataList()
+        val view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
         view.detailviewfragment_recyclerview.adapter = recyclerAdapter
         view.detailviewfragment_recyclerview.layoutManager = LinearLayoutManager(context)
-
-
+        getDataList()
         return view
     }
 
     var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
-    var contentUidList: ArrayList<String> = arrayListOf()
+    var contentUids: ArrayList<String> = arrayListOf()
 
     private fun getDataList() {
-        firestore?.collection("images")?.orderBy("timestamp")
-            ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                contentDTOs.clear()
-                contentUidList.clear()
-                //Sometimes, this code return null of queryshanpshot when it signout
-                if (querySnapshot == null) return@addSnapshotListener
-
-                for (snapshot in querySnapshot!!.documents) {
-                    var item = snapshot.toObject(ContentDTO::class.java)
-                    contentDTOs.add(item!!)
-                    contentUidList.add(snapshot.id)
-                }
-                recyclerAdapter.notifyDataSetChanged()
-            }
+        FirebaseRepository.getDataList { contentDTOList, documentIDList->
+            contentDTOs.clear()
+            contentDTOs.addAll(contentDTOList)
+            contentUids.clear()
+            contentUids.addAll(documentIDList)
+            recyclerAdapter.notifyDataSetChanged()
+        }
     }
 }
 
