@@ -54,9 +54,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/account_tv_post_coun"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/account_tv_post_count"
+            android:layout_width="9dp"
+            android:layout_height="16dp"
             android:layout_marginTop="10dp"
             android:text="@string/count_0"
             app:layout_constraintEnd_toEndOf="@+id/content_count"
