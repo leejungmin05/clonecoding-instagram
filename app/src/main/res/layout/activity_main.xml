@@ -9,7 +9,7 @@
 
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar3"
+        android:id="@+id/toolbar_main"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:background="@color/colorWhite"
@@ -55,8 +55,8 @@
         android:layout_height="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/toolbar3"
-        app:layout_constraintTop_toTopOf="@+id/toolbar3"
+        app:layout_constraintStart_toStartOf="@+id/toolbar_main"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_main"
         app:srcCompat="@drawable/logo_title" />
 
     <FrameLayout
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar3" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_main" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
