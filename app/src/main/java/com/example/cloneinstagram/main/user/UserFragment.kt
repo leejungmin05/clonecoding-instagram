@@ -27,24 +27,21 @@ class UserFragment : Fragment() {
     private var firestore: FirebaseFirestore? = null
     private var uid: String? = null
     private var auth: FirebaseAuth? = null
-    private var currentUserUid :String? = null
+    private var currentUserUid: String? = null
     private val recyclerAdapter: UserRecyclerAdapter by lazy {
         UserRecyclerAdapter(contentDTOs)
     }
-
 
     companion object {
         var PICK_PROFILE_FROM_ALBUM = 10
 
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         fragmentView =
             LayoutInflater.from(activity).inflate(R.layout.fragment_user, container, false)
         uid = arguments?.getString("destinationUid")
@@ -69,7 +66,7 @@ class UserFragment : Fragment() {
             mainActivity.toolbar_btn_back?.setOnClickListener {
                 mainActivity.bottom_navigation.selectedItemId = R.id.action_home
             }
-            mainActivity.toolbar_title_image?.visibility = View.GONE
+            mainActivity.imageView?.visibility = View.GONE
             mainActivity.toolbar_username?.visibility = View.VISIBLE
             mainActivity.toolbar_btn_back?.visibility = View.VISIBLE
             fragmentView?.account_btn_follow_signout?.setOnClickListener {
@@ -121,12 +118,9 @@ class UserFragment : Fragment() {
             }
     }
 
-
-
     private fun requestFollow() {
         FirebaseRepository.requestFollow(FollowDTO())
     }
-
 
     private fun getProfileImage() {
         firestore?.collection("profileImages")?.document(uid!!)
@@ -137,14 +131,10 @@ class UserFragment : Fragment() {
                     Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
                         .into(fragmentView?.account_iv_profile!!)
                 }
-
             }
     }
 
-
-
     var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
-
 
     private fun getUidDataList() {
         FirebaseRepository.getUidDataList { contentDTOList ->
@@ -153,7 +143,5 @@ class UserFragment : Fragment() {
             fragmentView?.account_tv_post_count?.text = contentDTOs.size.toString()
             recyclerAdapter.notifyDataSetChanged()
         }
-
     }
-
 }
