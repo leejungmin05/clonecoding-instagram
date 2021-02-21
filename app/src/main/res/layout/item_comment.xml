@@ -17,8 +17,8 @@
 
     <TextView
         android:id="@+id/commentviewitem_textview_profile"
-        android:layout_width="40dp"
-        android:layout_height="17dp"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
         android:layout_margin="7.5dp"
         android:layout_marginStart="80dp"
         android:layout_marginTop="4dp"
@@ -28,11 +28,13 @@
 
     <TextView
         android:id="@+id/commentviewitem_textview_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="20dp"
         android:layout_margin="7.5dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="4dp"
         android:text="Message"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/commentviewitem_textview_profile"
         app:layout_constraintTop_toTopOf="parent" />
 
