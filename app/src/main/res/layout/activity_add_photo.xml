@@ -1,60 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main.upload.AddPhotoActivity">
 
-    <Toolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="35dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/upload_content"
-            android:textSize="25dp"
-            android:textColor="@color/black"/>
-    </Toolbar>
-    <LinearLayout
-        android:id="@+id/toolbar_division"
-        android:background="@color/colorDivision"
-        android:layout_below="@id/my_toolbar"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"></LinearLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editText"
-        android:layout_below="@+id/toolbar_division"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content">
-        <EditText
-            android:layout_gravity="top"
-            android:id="@+id/addphoto_edit_explain"
-            android:hint="@string/hint_image_content"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"/>
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_content"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/toolbar_content_text"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_content"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_content"
+        app:layout_constraintEnd_toEndOf="@+id/toolbar_content"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/toolbar_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/content_text"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="4dp"
+        android:hint="@string/hint_image_content"
+        app:hintTextColor="@color/gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/addphoto_edit_explain"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:hint="@string/hint_image_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/addphoto_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_below="@id/toolbar_division"
-        android:layout_toRightOf="@+id/editText"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        app:layout_constraintEnd_toStartOf="@+id/content_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_content" />
 
-    <android.widget.Button
+    <Button
         android:id="@+id/addphoto_btn_upload"
-        android:text="@string/upload_image"
-        android:layout_below="@id/editText"
-        android:theme="@style/ButtonStyle"
-        android:layout_width="300dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:backgroundTint="#FFFFFF"
+        android:text="@string/upload_image"
+        android:textColor="#041FC3"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_content_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintStart_toEndOf="@+id/toolbar_content_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.6" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
