@@ -121,6 +121,17 @@ object FirebaseRepository {
                 listener.invoke(contentDTOList)
             }
     }
+
+    fun getProfileImage(listener: (Any)-> Unit) {
+        firestore.collection(PROFILE).document(uid)
+            .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                if (documentSnapshot == null) return@addSnapshotListener
+                if (documentSnapshot.data != null) {
+                    val url = documentSnapshot.data!!["image"]
+                    listener.invoke(url!!)
+                }
+            }
+    }
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid ?: " "
     val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid

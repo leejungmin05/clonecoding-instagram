@@ -13,25 +13,26 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
+import com.example.cloneinstagram.extensions.gone
+import com.example.cloneinstagram.extensions.visible
 import com.example.cloneinstagram.login.LoginActivity
 import com.example.cloneinstagram.main.MainActivity
 import com.example.cloneinstagram.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firestore.v1.FirestoreGrpc
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
 
 
 class UserFragment : Fragment() {
     private var fragmentView: View? = null
-    private var firestore: FirebaseFirestore? = null
     private var uid: String? = null
     private var auth: FirebaseAuth? = null
-    private var currentUserUid :String? = null
+    private var currentUserUid: String? = null
     private val recyclerAdapter: UserRecyclerAdapter by lazy {
         UserRecyclerAdapter(contentDTOs)
     }
-
 
     companion object {
         var PICK_PROFILE_FROM_ALBUM = 10
@@ -48,7 +49,6 @@ class UserFragment : Fragment() {
         fragmentView =
             LayoutInflater.from(activity).inflate(R.layout.fragment_user, container, false)
         uid = arguments?.getString("destinationUid")
-        firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         currentUserUid = auth?.currentUser?.uid
         getUidDataList()
@@ -69,9 +69,9 @@ class UserFragment : Fragment() {
             mainActivity.toolbar_btn_back?.setOnClickListener {
                 mainActivity.bottom_navigation.selectedItemId = R.id.action_home
             }
-            mainActivity.toolbar_title_image?.visibility = View.GONE
-            mainActivity.toolbar_username?.visibility = View.VISIBLE
-            mainActivity.toolbar_btn_back?.visibility = View.VISIBLE
+            mainActivity.toolbar_title_image?.gone()
+            mainActivity.toolbar_username?.visible()
+            mainActivity.toolbar_btn_back?.visible()
             fragmentView?.account_btn_follow_signout?.setOnClickListener {
                 requestFollow()
             }
@@ -92,7 +92,8 @@ class UserFragment : Fragment() {
     private fun getFollowerAndFollowing() {
         firestore?.collection("users")?.document(uid!!)
             ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (documentSnapshot == null) return@addSnapshotListener
+                if (documentSnapshot == null)
+                    return@addSnapshotListener
                 val followDTO = documentSnapshot.toObject(FollowDTO::class.java)
                 if (followDTO?.followingCount != null) {
                     fragmentView?.account_tv_following_count?.text =
@@ -102,8 +103,7 @@ class UserFragment : Fragment() {
                     fragmentView?.account_tv_follower_count?.text =
                         followDTO.followerCount.toString()
                     if (followDTO.followers.containsKey(currentUserUid!!)) {
-                        fragmentView?.account_btn_follow_signout?.text =
-                            getString(R.string.follow_cancel)
+                        fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow_cancel)
                         fragmentView?.account_btn_follow_signout?.background?.setColorFilter(
                             ContextCompat.getColor(requireActivity(), R.color.colorLightGray),
                             PorterDuff.Mode.MULTIPLY
@@ -111,10 +111,8 @@ class UserFragment : Fragment() {
                     } else {
 
                         if (uid != currentUserUid) {
-                            fragmentView?.account_btn_follow_signout?.text =
-                                getString(R.string.follow)
-                            fragmentView?.account_btn_follow_signout?.background?.colorFilter =
-                                null
+                            fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
+                            fragmentView?.account_btn_follow_signout?.background?.colorFilter = null
                         }
                     }
                 }
@@ -128,12 +126,8 @@ class UserFragment : Fragment() {
     }
 
 
-    private fun getProfileImage() {
-        firestore?.collection("profileImages")?.document(uid!!)
-            ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (documentSnapshot == null) return@addSnapshotListener
-                if (documentSnapshot.data != null) {
-                    val url = documentSnapshot.data!!["image"]
+    private fun getProfileImage(url) {
+      FirebaseRepository.getProfileImage() {
                     Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
                         .into(fragmentView?.account_iv_profile!!)
                 }
@@ -150,7 +144,7 @@ class UserFragment : Fragment() {
         FirebaseRepository.getUidDataList { contentDTOList ->
             contentDTOs.clear()
             contentDTOs.addAll(contentDTOList)
-            fragmentView?.account_tv_post_count?.text = contentDTOs.size.toString()
+            fragmentView.account_tv_post_count.text = contentDTOs.size.toString()
             recyclerAdapter.notifyDataSetChanged()
         }
 
