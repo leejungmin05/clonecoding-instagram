@@ -1,9 +1,10 @@
 package com.example.cloneinstagram.model
 
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
+import android.graphics.PorterDuff
+import android.view.View
+import androidx.core.content.ContextCompat
+import com.example.cloneinstagram.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_user.view.*
 import kotlinx.android.synthetic.main.item_comment.view.*
@@ -111,27 +112,36 @@ object FirebaseRepository {
             }
     }
 
-    fun getUidDataList(listener: (List<ContentDTO>)-> Unit) {
+    fun getUidDataList(listener: (List<ContentDTO>) -> Unit) {
         firestore.collection(IMAGES).whereEqualTo("uid", uid)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (querySnapshot == null) return@addSnapshotListener
-
-                val contentDTOList = querySnapshot.toObjects(ContentDTO::class.java)
-
-                listener.invoke(contentDTOList)
+                    val contentDTOList = querySnapshot.toObjects(ContentDTO::class.java)
+                    listener.invoke(contentDTOList)
             }
     }
 
-    fun getProfileImage(listener: (Any)-> Unit) {
+    fun getProfileImage(listener: (String)-> Unit) {
         firestore.collection(PROFILE).document(uid)
             .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
                 if (documentSnapshot == null) return@addSnapshotListener
                 if (documentSnapshot.data != null) {
-                    val url = documentSnapshot.data!!["image"]
-                    listener.invoke(url!!)
+                    val url = documentSnapshot.data!!["image"].toString()
+                    listener(url)
                 }
             }
     }
+
+    fun getFollowData(listener: (FollowDTO?) -> Unit) {
+        firestore.collection(USERS).document(uid)
+            .addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+                if (documentSnapshot == null)
+                    return@addSnapshotListener
+                val followDTOList = documentSnapshot.toObject(FollowDTO::class.java)
+                listener.invoke(followDTOList)
+            }
+    }
+
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid ?: " "
     val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid

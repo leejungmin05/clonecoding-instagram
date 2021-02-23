@@ -19,8 +19,6 @@ import com.example.cloneinstagram.login.LoginActivity
 import com.example.cloneinstagram.main.MainActivity
 import com.example.cloneinstagram.model.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firestore.v1.FirestoreGrpc
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
 
@@ -45,7 +43,6 @@ class UserFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         fragmentView =
             LayoutInflater.from(activity).inflate(R.layout.fragment_user, container, false)
         uid = arguments?.getString("destinationUid")
@@ -90,35 +87,36 @@ class UserFragment : Fragment() {
     }
 
     private fun getFollowerAndFollowing() {
-        firestore?.collection("users")?.document(uid!!)
-            ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (documentSnapshot == null)
-                    return@addSnapshotListener
-                val followDTO = documentSnapshot.toObject(FollowDTO::class.java)
-                if (followDTO?.followingCount != null) {
-                    fragmentView?.account_tv_following_count?.text =
-                        followDTO.followingCount.toString()
-                }
-                if (followDTO?.followerCount != null) {
-                    fragmentView?.account_tv_follower_count?.text =
-                        followDTO.followerCount.toString()
-                    if (followDTO.followers.containsKey(currentUserUid!!)) {
-                        fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow_cancel)
-                        fragmentView?.account_btn_follow_signout?.background?.setColorFilter(
-                            ContextCompat.getColor(requireActivity(), R.color.colorLightGray),
-                            PorterDuff.Mode.MULTIPLY
-                        )
-                    } else {
+        FirebaseRepository.getFollowData { followDTOList ->
+            followDTOs.clear()
 
-                        if (uid != currentUserUid) {
-                            fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
-                            fragmentView?.account_btn_follow_signout?.background?.colorFilter = null
-                        }
+            if (followDTOList?.followingCount != null) {
+                fragmentView?.account_tv_following_count?.text =
+                    followDTOList.followingCount.toString()
+            }
+            if (followDTOList?.followerCount != null) {
+                fragmentView?.account_tv_follower_count?.text =
+                    followDTOList.followerCount.toString()
+                if (followDTOList.followers.containsKey(FirebaseRepository.currentUserUid!!)) {
+                    fragmentView?.account_btn_follow_signout?.text =
+                        getString(R.string.follow_cancel)
+                    fragmentView?.account_btn_follow_signout?.background?.setColorFilter(
+                        ContextCompat.getColor(requireActivity(), R.color.colorLightGray),
+                        PorterDuff.Mode.MULTIPLY
+                    )
+
+                } else {
+
+                    if (FirebaseRepository.uid != FirebaseRepository.currentUserUid) {
+                        fragmentView?.account_btn_follow_signout?.text =
+                            getString(R.string.follow)
+                        fragmentView?.account_btn_follow_signout?.background?.colorFilter = null
                     }
                 }
-            }
-    }
 
+            }
+        }
+    }
 
 
     private fun requestFollow() {
@@ -126,28 +124,31 @@ class UserFragment : Fragment() {
     }
 
 
-    private fun getProfileImage(url) {
-      FirebaseRepository.getProfileImage() {
-                    Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
-                        .into(fragmentView?.account_iv_profile!!)
-                }
+    private fun getProfileImage() {
+        FirebaseRepository.getProfileImage() { url ->
+            Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
+                .into(fragmentView?.account_iv_profile!!)
+        }
 
-            }
     }
-
-
-
-    var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
-
-
     private fun getUidDataList() {
         FirebaseRepository.getUidDataList { contentDTOList ->
             contentDTOs.clear()
             contentDTOs.addAll(contentDTOList)
-            fragmentView.account_tv_post_count.text = contentDTOs.size.toString()
+            fragmentView?.account_tv_post_count?.text = contentDTOs.size.toString()
             recyclerAdapter.notifyDataSetChanged()
         }
 
     }
+
+
+
+
+
+var followDTOs: ArrayList<FollowDTO> = arrayListOf()
+var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
+
+
+
 
 }
