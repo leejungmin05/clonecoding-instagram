@@ -32,7 +32,7 @@ class AlarmFragment : Fragment(){
 
         return view
     }
-    var alarmDTOs : ArrayList<AlarmDTO> = arrayListOf()
+    private var alarmDTOs : ArrayList<AlarmDTO> = arrayListOf()
 
     private fun getDataList() {
         FirebaseRepository.getAlarmUidDataList { alarmDTOList ->
