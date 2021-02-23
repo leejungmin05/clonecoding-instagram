@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.model.AlarmDTO
+import com.example.cloneinstagram.model.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_alarm.view.*
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.item_comment.view.*
 class AlarmFragment : Fragment(){
     var firestore: FirebaseFirestore? = null
     private val recyclerAdapter: AlarmRecyclerAdapter by lazy {
-        AlarmRecyclerAdapter(alarmDTOList)
+        AlarmRecyclerAdapter(alarmDTOs)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -31,23 +32,17 @@ class AlarmFragment : Fragment(){
 
         return view
     }
-    var alarmDTOList : ArrayList<AlarmDTO> = arrayListOf()
+    var alarmDTOs : ArrayList<AlarmDTO> = arrayListOf()
 
     private fun getDataList() {
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-        firestore?.collection("alarms")?.whereEqualTo("destinationUid",uid)
-            ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-            alarmDTOList.clear()
+        FirebaseRepository.getAlarmUidDataList { alarmDTOList ->
+            alarmDTOs.clear()
+            alarmDTOs.addAll(alarmDTOList)
+            recyclerAdapter.notifyDataSetChanged()
+        }
 
-            if(querySnapshot ==null) return@addSnapshotListener
-
-            for(snapshot in querySnapshot.documents){
-                val item = snapshot.toObject(AlarmDTO::class.java)
-                alarmDTOList.add(item!!)
-            }
-                recyclerAdapter.notifyDataSetChanged()
         }
     }
 
-}
+
 

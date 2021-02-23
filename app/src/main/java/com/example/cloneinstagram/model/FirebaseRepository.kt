@@ -122,6 +122,21 @@ object FirebaseRepository {
             }
     }
 
+    fun getAlarmUidDataList(listener: (List<AlarmDTO>)-> Unit) {
+        firestore.collection("alarms").whereEqualTo("destinationUid",uid)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if(querySnapshot ==null) return@addSnapshotListener
+
+                for(snapshot in querySnapshot.documents){
+                    val item = snapshot.toObject(AlarmDTO::class.java)
+                    val alarmDTOList : ArrayList<AlarmDTO> = arrayListOf()
+                    alarmDTOList.add(item!!)
+                    listener.invoke(alarmDTOList)
+                }
+
+            }
+    }
+
     fun getProfileUrl(uid: String,listener: (String) -> Unit){
         firestore.collection(PROFILE)
             .document(uid).get().addOnCompleteListener { task ->
