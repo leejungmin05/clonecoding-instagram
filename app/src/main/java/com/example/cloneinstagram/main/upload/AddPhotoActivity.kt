@@ -17,15 +17,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-
 class AddPhotoActivity : AppCompatActivity() {
     var PICK_IMAGE_FROM_ALBUM = 0 //request code
     var storage: FirebaseStorage? = null
     var photoUri: Uri? = null
-    var auth : FirebaseAuth? = null
-    var firestore : FirebaseFirestore ? =null
-
-
+    var auth: FirebaseAuth? = null
+    var firestore: FirebaseFirestore? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,8 +72,8 @@ class AddPhotoActivity : AppCompatActivity() {
         var imageFileName = "IMAGE_" + timestamp + "_.png"
         var storageRef = storage?.reference?.child("images")?.child(imageFileName)
 
-       //promise method (구글 권장 방식)
-        storageRef?.putFile(photoUri!!)?.continueWithTask { task : Task<UploadTask.TaskSnapshot> ->
+        //promise method (구글 권장 방식)
+        storageRef?.putFile(photoUri!!)?.continueWithTask { task: Task<UploadTask.TaskSnapshot> ->
             return@continueWithTask storageRef.downloadUrl
         }?.addOnSuccessListener { uri ->
             var contentDTO = ContentDTO()
@@ -101,7 +98,6 @@ class AddPhotoActivity : AppCompatActivity() {
 
             finish()
         }
-
 
 
         /* //Callback method

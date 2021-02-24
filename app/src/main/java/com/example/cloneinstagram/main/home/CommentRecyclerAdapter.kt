@@ -9,7 +9,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.model.ContentDTO
 import com.example.cloneinstagram.model.FirebaseRepository
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.item_comment.view.*
 
 class CommentRecyclerAdapter(

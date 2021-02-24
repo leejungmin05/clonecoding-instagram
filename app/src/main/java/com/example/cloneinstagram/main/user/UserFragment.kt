@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.LinearLayoutCompat.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,7 +16,9 @@ import com.example.cloneinstagram.extensions.gone
 import com.example.cloneinstagram.extensions.visible
 import com.example.cloneinstagram.login.LoginActivity
 import com.example.cloneinstagram.main.MainActivity
-import com.example.cloneinstagram.model.*
+import com.example.cloneinstagram.model.ContentDTO
+import com.example.cloneinstagram.model.FirebaseRepository
+import com.example.cloneinstagram.model.FollowDTO
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
@@ -122,7 +123,7 @@ class UserFragment : Fragment() {
     }
 
     private fun getProfileImage() {
-        FirebaseRepository.getProfileImage() { url ->
+        FirebaseRepository.getProfileImage { url ->
             Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
                 .into(fragmentView?.account_iv_profile!!)
         }

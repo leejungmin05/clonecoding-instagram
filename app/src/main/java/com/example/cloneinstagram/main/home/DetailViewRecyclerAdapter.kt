@@ -29,6 +29,7 @@ class DetailViewRecyclerAdapter(
     private val ContentDIdList: List<String>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var uid: String = FirebaseRepository.uid
+
     companion object {
         const val TAG = "DetailViewRecyclerAdapter"
     }
@@ -47,7 +48,10 @@ class DetailViewRecyclerAdapter(
             .into(viewHolder.detailviewitem_imageview_content)
         viewHolder.detailviewitem_explain_textview.text = contentDTOs[position].explain
         viewHolder.detailviewitem_favoritecounter_textview.text =
-           viewHolder.context.resources.getString(R.string.likes,contentDTOs[position].favoriteCount)
+            viewHolder.context.resources.getString(
+                R.string.likes,
+                contentDTOs[position].favoriteCount
+            )
         Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl)
             .into(viewHolder.detailviewitem_profile_image)
         // when the page is loaded
@@ -87,7 +91,7 @@ class DetailViewRecyclerAdapter(
     }
 
     private fun favoriteEvent(position: Int) {
-        Log.d("DetailView","Like")
+        Log.d("DetailView", "Like")
         FirebaseRepository.toggleFavorite(contentDTOs[position], ContentDIdList[position])
         notifyItemChanged(position)
     }
