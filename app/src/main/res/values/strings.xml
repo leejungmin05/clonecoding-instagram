@@ -63,5 +63,7 @@
     <item name="visible" type="id" />
     <item name="masked" type="id" />
     <string name="likes">Likes %1$d</string>
+    <string name="comment_text">%1$s</string>
+    <string name="comment_userId">%1$s</string>
 
 </resources>

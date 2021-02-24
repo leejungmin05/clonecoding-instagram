@@ -13,18 +13,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
+import com.example.cloneinstagram.extensions.gone
+import com.example.cloneinstagram.extensions.visible
 import com.example.cloneinstagram.login.LoginActivity
 import com.example.cloneinstagram.main.MainActivity
 import com.example.cloneinstagram.model.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
 
 
 class UserFragment : Fragment() {
     private var fragmentView: View? = null
-    private var firestore: FirebaseFirestore? = null
     private var uid: String? = null
     private var auth: FirebaseAuth? = null
     private var currentUserUid: String? = null
@@ -45,7 +45,6 @@ class UserFragment : Fragment() {
         fragmentView =
             LayoutInflater.from(activity).inflate(R.layout.fragment_user, container, false)
         uid = arguments?.getString("destinationUid")
-        firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         currentUserUid = auth?.currentUser?.uid
         getUidDataList()
@@ -66,9 +65,9 @@ class UserFragment : Fragment() {
             mainActivity.toolbar_btn_back?.setOnClickListener {
                 mainActivity.bottom_navigation.selectedItemId = R.id.action_home
             }
-            mainActivity.imageView?.visibility = View.GONE
-            mainActivity.toolbar_username?.visibility = View.VISIBLE
-            mainActivity.toolbar_btn_back?.visibility = View.VISIBLE
+            mainActivity.imageView?.gone()
+            mainActivity.toolbar_username?.visible()
+            mainActivity.toolbar_btn_back?.visible()
             fragmentView?.account_btn_follow_signout?.setOnClickListener {
                 requestFollow()
             }
@@ -87,35 +86,35 @@ class UserFragment : Fragment() {
     }
 
     private fun getFollowerAndFollowing() {
-        firestore?.collection("users")?.document(uid!!)
-            ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (documentSnapshot == null) return@addSnapshotListener
-                val followDTO = documentSnapshot.toObject(FollowDTO::class.java)
-                if (followDTO?.followingCount != null) {
-                    fragmentView?.account_tv_following_count?.text =
-                        followDTO.followingCount.toString()
-                }
-                if (followDTO?.followerCount != null) {
-                    fragmentView?.account_tv_follower_count?.text =
-                        followDTO.followerCount.toString()
-                    if (followDTO.followers.containsKey(currentUserUid!!)) {
-                        fragmentView?.account_btn_follow_signout?.text =
-                            getString(R.string.follow_cancel)
-                        fragmentView?.account_btn_follow_signout?.background?.setColorFilter(
-                            ContextCompat.getColor(requireActivity(), R.color.colorLightGray),
-                            PorterDuff.Mode.MULTIPLY
-                        )
-                    } else {
+        FirebaseRepository.getFollowData { followDTOList ->
+            followDTOs.clear()
 
-                        if (uid != currentUserUid) {
-                            fragmentView?.account_btn_follow_signout?.text =
-                                getString(R.string.follow)
-                            fragmentView?.account_btn_follow_signout?.background?.colorFilter =
-                                null
-                        }
+            if (followDTOList?.followingCount != null) {
+                fragmentView?.account_tv_following_count?.text =
+                    followDTOList.followingCount.toString()
+            }
+            if (followDTOList?.followerCount != null) {
+                fragmentView?.account_tv_follower_count?.text =
+                    followDTOList.followerCount.toString()
+                if (followDTOList.followers.containsKey(FirebaseRepository.currentUserUid!!)) {
+                    fragmentView?.account_btn_follow_signout?.text =
+                        getString(R.string.follow_cancel)
+                    fragmentView?.account_btn_follow_signout?.background?.setColorFilter(
+                        ContextCompat.getColor(requireActivity(), R.color.colorLightGray),
+                        PorterDuff.Mode.MULTIPLY
+                    )
+
+                } else {
+
+                    if (FirebaseRepository.uid != FirebaseRepository.currentUserUid) {
+                        fragmentView?.account_btn_follow_signout?.text =
+                            getString(R.string.follow)
+                        fragmentView?.account_btn_follow_signout?.background?.colorFilter = null
                     }
                 }
+
             }
+        }
     }
 
     private fun requestFollow() {
@@ -123,18 +122,12 @@ class UserFragment : Fragment() {
     }
 
     private fun getProfileImage() {
-        firestore?.collection("profileImages")?.document(uid!!)
-            ?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
-                if (documentSnapshot == null) return@addSnapshotListener
-                if (documentSnapshot.data != null) {
-                    val url = documentSnapshot.data!!["image"]
-                    Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
-                        .into(fragmentView?.account_iv_profile!!)
-                }
-            }
-    }
+        FirebaseRepository.getProfileImage() { url ->
+            Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop())
+                .into(fragmentView?.account_iv_profile!!)
+        }
 
-    var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
+    }
 
     private fun getUidDataList() {
         FirebaseRepository.getUidDataList { contentDTOList ->
@@ -144,4 +137,7 @@ class UserFragment : Fragment() {
             recyclerAdapter.notifyDataSetChanged()
         }
     }
+
+    var followDTOs: ArrayList<FollowDTO> = arrayListOf()
+    var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
 }
