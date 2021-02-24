@@ -1,11 +1,9 @@
 package com.example.cloneinstagram.model
 
-import android.graphics.PorterDuff
-import android.view.View
-import androidx.core.content.ContextCompat
-import com.example.cloneinstagram.R
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
 import kotlinx.android.synthetic.main.item_comment.view.*
 
@@ -97,6 +95,29 @@ object FirebaseRepository {
         firestore.collection(ALARMS).document().set(alarmDTO)
     }
 
+    fun commentAlarm(destinationUid : String ,message : String){
+        val alarmDTO =AlarmDTO(
+            destinationUid,
+            email,
+            uid,
+            AlarmKind.COMMENT,
+            "",
+            System.currentTimeMillis()
+        )
+        firestore.collection(ALARMS).document().set(alarmDTO)
+
+    }
+
+    fun commentData(contentUid: String) {
+        val comment = ContentDTO.Comment(
+            email,
+            uid,
+            "",
+            System.currentTimeMillis()
+        )
+        firestore.collection(IMAGES).document(contentUid)
+            .collection("comments").document().set(comment)
+    }
 
     fun getDataList(listener: (List<ContentDTO>, List<String>) -> Unit) {
         firestore.collection(IMAGES).orderBy("timestamp")
@@ -161,13 +182,27 @@ object FirebaseRepository {
             }
     }
 
+    fun getComUidDataList(contentUid: String, listener: (MutableList<ContentDTO.Comment>) -> Unit) {
+        firestore.collection(IMAGES)
+            .document(contentUid)
+            .collection("comments")
+            .orderBy("timestamp")
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (querySnapshot == null) return@addSnapshotListener
+
+                val commentList = querySnapshot.toObjects(ContentDTO.Comment::class.java)
+                listener.invoke(commentList)
+
+            }
+    }
+
+
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid ?: " "
     val currentUserUid = FirebaseAuth.getInstance().currentUser?.uid
     private val email = FirebaseAuth.getInstance().currentUser?.email
-
-    val ALARMS = "alarms"
     val USERS = "users"
+    val ALARMS = "alarms"
     val IMAGES = "images"
     val PROFILE = "profileImages"
     private val IMAGE = "image"
