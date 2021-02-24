@@ -16,7 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.item_comment.view.*
 
 class AlarmRecyclerAdapter(
-    private var alarmDTOList: ArrayList<AlarmDTO>
+    private val alarmDTOList: ArrayList<AlarmDTO>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_comment, parent, false)

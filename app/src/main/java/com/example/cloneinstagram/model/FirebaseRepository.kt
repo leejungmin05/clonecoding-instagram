@@ -98,12 +98,10 @@ object FirebaseRepository {
     }
 
 
-
     fun getDataList(listener: (List<ContentDTO>, List<String>) -> Unit) {
         firestore.collection(IMAGES).orderBy("timestamp")
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (querySnapshot == null) return@addSnapshotListener
-
                 val contentDTOList = querySnapshot.toObjects(ContentDTO::class.java)
                 val snapshotIdList = querySnapshot.documents.map { documentSnapshot ->
                     documentSnapshot.id
@@ -112,31 +110,27 @@ object FirebaseRepository {
             }
     }
 
-    fun getUidDataList(listener: (List<ContentDTO>) -> Unit) {
+    fun getUidDataList(listener: (List<ContentDTO>)-> Unit) {
         firestore.collection(IMAGES).whereEqualTo("uid", uid)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 if (querySnapshot == null) return@addSnapshotListener
-                    val contentDTOList = querySnapshot.toObjects(ContentDTO::class.java)
-                    listener.invoke(contentDTOList)
+                val contentDTOList = querySnapshot.toObjects(ContentDTO::class.java)
+                listener.invoke(contentDTOList)
             }
     }
 
-    fun getAlarmUidDataList(listener: (List<AlarmDTO>)-> Unit) {
-        firestore.collection("alarms").whereEqualTo("destinationUid",uid)
+    fun getAlarmUidDataList(listener: (List<AlarmDTO>) -> Unit) {
+        firestore.collection(ALARMS).whereEqualTo("destinationUid", uid)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                if(querySnapshot ==null) return@addSnapshotListener
-
-                for(snapshot in querySnapshot.documents){
-                    val item = snapshot.toObject(AlarmDTO::class.java)
-                    val alarmDTOList : ArrayList<AlarmDTO> = arrayListOf()
-                    alarmDTOList.add(item!!)
-                    listener.invoke(alarmDTOList)
-                }
-
+                if (querySnapshot == null) return@addSnapshotListener
+                val alarmDTOList = querySnapshot.toObjects(AlarmDTO::class.java)
+                listener.invoke(alarmDTOList)
             }
+
     }
 
-    fun getProfileUrl(uid: String,listener: (String) -> Unit){
+
+    fun getProfileUrl(uid: String, listener: (String) -> Unit) {
         firestore.collection(PROFILE)
             .document(uid).get().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
