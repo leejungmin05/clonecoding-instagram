@@ -47,6 +47,9 @@
     <string name="logo">로고</string>
     <string name="comment">댓글</string>
     <string name="comment_hint">댓글달기...</string>
+    <string name="comment_text"> %1$s </string>
+    <string name="comment_userId"> %1$s </string>
+
 
     <!-- Add Photo -->
     <string name="upload_image">공유</string>
