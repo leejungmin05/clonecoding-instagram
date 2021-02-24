@@ -38,10 +38,9 @@
     <string name="count_0">0</string>
 
     <!-- Alarm -->
-    <string name="alarm_favorite">님이 좋아요를 눌렀습니다.</string>
-    <string name="alarm_who">님이 </string>
-    <string name="alarm_comment"> 메세지를 남겼습니다.</string>
-    <string name="alarm_follow">님이 당신의 계정을 팔로워하기 시작했습니다.</string>
+    <string name="alarm_favorite">%1$s 님이 좋아요를 눌렀습니다.</string>
+    <string name="alarm_comment"> %1$s 님이 메세지를 남겼습니다.</string>
+    <string name="alarm_follow">%1$s 님이 당신의 계정을 팔로워하기 시작했습니다.</string>
 
     <!-- Comment -->
     <string name="send">게시</string>
@@ -63,5 +62,6 @@
     <!-- etc -->
     <item name="visible" type="id" />
     <item name="masked" type="id" />
+    <string name="likes">Likes %1$d</string>
 
 </resources>
