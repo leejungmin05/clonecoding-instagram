@@ -28,8 +28,8 @@ class CommentRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val view = holder.itemView
 
-        view.context.resources.getString(R.string.comment_text,comments[position].comment)
-        view.context.resources.getString(R.string.comment_userId,comments[position].userId)
+        view.context.resources.getString(R.string.comment_text, comments[position].comment)
+        view.context.resources.getString(R.string.comment_userId, comments[position].userId)
 
         FirebaseRepository.getProfileUrl(comments[position].uid!!) { url ->
             Glide.with(view.context).load(url).apply(RequestOptions().circleCrop())
