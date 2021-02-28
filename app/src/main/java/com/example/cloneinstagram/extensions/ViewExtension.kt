@@ -29,6 +29,7 @@ fun ImageView.getProfileImageByUid(uid: String) {
     }
 }
 
+
 fun AlarmDTO.getSentence(context: Context): String {
     return when (kind as AlarmKind) {
         AlarmKind.LIKE -> {
@@ -50,4 +51,9 @@ fun AlarmDTO.getSentence(context: Context): String {
             )
         }
     }
+}
+
+fun ImageView.getGridImage(imageUrl: String) {
+    Glide.with(context).load(imageUrl).apply(RequestOptions().centerCrop())
+        .into(this)
 }
