@@ -8,6 +8,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.model.AlarmDTO
 import com.example.cloneinstagram.model.AlarmKind
+import com.example.cloneinstagram.model.ContentDTO
 import com.example.cloneinstagram.model.FirebaseRepository
 
 fun View.invisible() {
@@ -50,4 +51,5 @@ fun AlarmDTO.getSentence(context: Context): String {
             )
         }
     }
-}
+
+
