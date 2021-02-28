@@ -6,12 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.main.user.UserFragment
 import com.example.cloneinstagram.model.ContentDTO
 import com.example.cloneinstagram.model.FirebaseRepository
+import com.example.cloneinstagram.model.FirebaseRepository.uid
 import kotlinx.android.synthetic.main.item_detail.view.*
 
 /**
@@ -30,69 +33,90 @@ class DetailViewRecyclerAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var uid: String = FirebaseRepository.uid
 
-    companion object {
-        const val TAG = "DetailViewRecyclerAdapter"
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+        return CustomViewHolder.from(parent)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_detail, parent, false)
-        return CustomViewHolder(view)
-    }
-
-    inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view)
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val viewHolder = (holder as CustomViewHolder).itemView
-        viewHolder.detailviewitem_profile_textview.text = contentDTOs[position].userId
-        Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl)
-            .into(viewHolder.detailviewitem_imageview_content)
-        viewHolder.detailviewitem_explain_textview.text = contentDTOs[position].explain
-        viewHolder.detailviewitem_favoritecounter_textview.text =
-            viewHolder.context.resources.getString(
-                R.string.likes,
-                contentDTOs[position].favoriteCount
-            )
-        Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl)
-            .into(viewHolder.detailviewitem_profile_image)
-        // when the page is loaded
-        if (contentDTOs[position].favorites.containsKey(uid)) {
-            //like status
-            viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite)
-        } else {
-            //unlike status
-            viewHolder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
-        }
-
-
-        viewHolder.detailviewitem_favorite_imageview.setOnClickListener {
-            favoriteEvent(position)
-        }
-        viewHolder.detailviewitem_profile_image.setOnClickListener {
-            val fragment = UserFragment()
-            val bundle = Bundle()
-            bundle.putString("destinationUid", contentDTOs[position].uid)
-            bundle.putString("userId", contentDTOs[position].userId)
-            fragment.arguments = bundle
-            fragment.activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.main_content, fragment)?.commit()
-        }
-
-        viewHolder.detailviewitem_comment_imageview.setOnClickListener { v ->
-            val intent = Intent(v.context, CommentActivity::class.java).apply {
-                putExtra("contentDid", ContentDIdList[position])
-                putExtra("destinationUid", contentDTOs[position].uid)
-            }
-            v.context.startActivity(intent)
-        }
+    override fun onBindViewHolder(holder: CustomViewHolder , position: Int) {
+        holder.bind(contentDTOs[position])
     }
 
     override fun getItemCount(): Int {
         return contentDTOs.size
     }
 
-    private fun favoriteEvent(position: Int) {
-        Log.d("DetailView", "Like")
-        FirebaseRepository.toggleFavorite(contentDTOs[position], ContentDIdList[position])
-        notifyItemChanged(position)
+
+
+
+    class CustomViewHolder private constructor(holder: View) : RecyclerView.ViewHolder(holder){
+        private val profileTextView: TextView = holder.detailviewitem_profile_textview
+        private val mainImageView: ImageView = holder.detailviewitem_imageview_content
+        private val explainTextView: TextView = holder.detailviewitem_explain_textview
+        private val favoriteTextView: TextView = holder.detailviewitem_favoritecounter_textview
+        private val profileImageView: ImageView = holder.detailviewitem_profile_image
+        private val favoriteImageView: ImageView = holder.detailviewitem_favorite_imageview
+
+        fun bind(contentDTO: ContentDTO){
+            val viewHolder = itemView
+            profileTextView.text = contentDTO.userId
+            mainImageView //Glide.with(itemView.context).load(contentDTO.imageUrl).into(viewHolder.detailviewitem_imageview_content)
+            explainTextView.text = contentDTO.explain
+            favoriteTextView.text = viewHolder.context.resources.getString(
+                R.string.likes,
+                contentDTO.favoriteCount
+            )
+            profileImageView //Glide.with(itemView.context).load(contentDTO.imageUrl).into(viewHolder.detailviewitem_profile_image)
+
+            // when the page is loaded
+            if (contentDTO.favorites.containsKey(uid)) {
+                //like status
+                favoriteImageView.setImageResource(R.drawable.ic_favorite)
+            } else {
+                //unlike status
+                favoriteImageView.setImageResource(R.drawable.ic_favorite_border)
+            }
+
+
+            viewHolder.detailviewitem_favorite_imageview.setOnClickListener {
+                favoriteEvent()
+            }
+            viewHolder.detailviewitem_profile_image.setOnClickListener {
+                val fragment = UserFragment()
+                val bundle = Bundle()
+                bundle.putString(DESTINATIONUID, contentDTOs[position].uid)
+                bundle.putString(USERID, contentDTOs[position].userId)
+                fragment.arguments = bundle
+                fragment.activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.main_content, fragment)?.commit()
+            }
+
+            viewHolder.detailviewitem_comment_imageview.setOnClickListener { v ->
+                val intent = Intent(v.context, CommentActivity::class.java).apply {
+                    putExtra(CONTENTDID, ContentDIdList[position])
+                    putExtra(DESTINATIONUID, contentDTOs[position].uid)
+                }
+                v.context.startActivity(intent)
+            }
+        }
+
+        fun favoriteEvent(position: Int) {
+            Log.d("DetailView", "Like")
+            FirebaseRepository.toggleFavorite(contentDTOs[position], ContentDIdList[position])
+            notifyItemChanged(position)
+        }
+
+        companion object{
+            fun from(parent: ViewGroup): CustomViewHolder{
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_detail, parent, false)
+                return CustomViewHolder(view)
+            }
+        }
+
+        val DESTINATIONUID = "destinationUid"
+        val USERID = "userId"
+        val CONTENTDID = "contentDid"
+
     }
 }
