@@ -1,20 +1,15 @@
 package com.example.cloneinstagram.main.grid
 
-import android.media.Image
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.extensions.getGridImage
-import com.example.cloneinstagram.main.alarm.AlarmRecyclerAdapter.CustomViewHolder.Companion.from
 import com.example.cloneinstagram.model.ContentDTO
-import com.example.cloneinstagram.model.FirebaseRepository
-import kotlinx.android.synthetic.main.fragment_grid.view.*
+*
 
 
 class GridRecyclerAdapter(
