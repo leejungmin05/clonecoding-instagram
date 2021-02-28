@@ -13,7 +13,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_alarm.view.*
 
 class AlarmFragment : Fragment() {
-    var firestore: FirebaseFirestore? = null
     private val recyclerAdapter: AlarmRecyclerAdapter by lazy {
         AlarmRecyclerAdapter(alarmDTOs)
     }
