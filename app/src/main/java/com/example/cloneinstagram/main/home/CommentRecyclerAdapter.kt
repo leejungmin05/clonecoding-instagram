@@ -1,5 +1,6 @@
 package com.example.cloneinstagram.main.home
 
+import android.icu.text.Transliterator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,18 +15,18 @@ import com.example.cloneinstagram.model.ContentDTO
 import com.example.cloneinstagram.model.FirebaseRepository
 import com.example.cloneinstagram.model.FirebaseRepository.uid
 import kotlinx.android.synthetic.main.item_comment.view.*
+import org.w3c.dom.Text
 
 class CommentRecyclerAdapter(
     private val comments: ArrayList<ContentDTO.Comment>
 ) : RecyclerView.Adapter<CommentRecyclerAdapter.CustomViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         return CustomViewHolder.from(parent)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.bind(comments[position])
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+        holder.bind(comments)
     }
 
     override fun getItemCount(): Int {
@@ -33,20 +34,22 @@ class CommentRecyclerAdapter(
     }
 
     class CustomViewHolder private constructor(holder: View) : RecyclerView.ViewHolder(holder) {
-        private val profileImageView : ImageView = holder.commentviewitem_imageview_profile
-
+        private val profileImageView: ImageView = holder.commentviewitem_imageview_profile
+        private val idTextView: TextView = holder.commentviewitem_textview_profile
+        private val commentTextView: TextView = holder.commentviewitem_textview_comment
         fun bind(comments: ArrayList<ContentDTO.Comment>) {
             val context = itemView.context
             profileImageView.getProfileImageByUid(uid)
-            context.resources.getString(R.string.comment_text, comments[position].comment)
-            context.resources.getString(R.string.comment_userId, comments[position].userId)
+            idTextView.text = context.resources.getString(R.string.comment_text, comments.comment)
+            commentTextView.text = context.resources.getString(R.string.comment_userId, comments.userId)
 
         }
 
-        companion object{
+        companion object {
             fun from(parent: ViewGroup): CustomViewHolder {
                 val view =
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_comment, parent, false)
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_comment, parent, false)
                 return CustomViewHolder(view)
             }
         }
