@@ -193,6 +193,18 @@ object FirebaseRepository {
             }
     }
 
+    fun getGridUidList(listener: (List<ContentDTO>) -> Unit) {
+        firestore.collection(IMAGES)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                if (querySnapshot == null) return@addSnapshotListener
+                val contentDTOList = querySnapshot.toObjects(ContentDTO::class.java)
+                listener.invoke(contentDTOList)
+                }
+
+            }
+
+
+
 
     private var firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
     val uid = FirebaseAuth.getInstance().currentUser?.uid ?: " "
