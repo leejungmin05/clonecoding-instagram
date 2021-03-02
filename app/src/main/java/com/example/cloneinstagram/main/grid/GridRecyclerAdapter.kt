@@ -1,6 +1,7 @@
 package com.example.cloneinstagram.main.grid
 
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,9 +30,10 @@ class GridRecyclerAdapter(
     }
 
     class CustomViewHolder private constructor(holder: View) : RecyclerView.ViewHolder(holder) {
-        val context = itemView.context
-        val mainImageView = ImageView(context)
-        var width: Int = context.resources.displayMetrics.widthPixels / 3
+        private val context = itemView.context
+        private val mainImageView = ImageView(context)
+        private var width: Int = context.resources.displayMetrics.widthPixels / 3
+
         fun bind(contentDTOs: ArrayList<ContentDTO>) {
             mainImageView.layoutParams = LinearLayoutCompat.LayoutParams(width, width)
             Glide.with(context).load(contentDTOs[adapterPosition].imageUrl)

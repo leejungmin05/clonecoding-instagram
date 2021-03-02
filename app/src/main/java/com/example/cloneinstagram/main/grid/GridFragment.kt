@@ -29,7 +29,7 @@ class GridFragment : Fragment() {
         return view
     }
 
-    private var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
+    private val contentDTOs: ArrayList<ContentDTO> = arrayListOf()
 
     private fun getGridUidList() {
         FirebaseRepository.getGridUidList { contentDTOList ->
