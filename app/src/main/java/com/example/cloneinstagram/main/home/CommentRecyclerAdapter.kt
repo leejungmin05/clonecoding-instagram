@@ -1,21 +1,18 @@
 package com.example.cloneinstagram.main.home
 
-import android.icu.text.Transliterator
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.cloneinstagram.R
 import com.example.cloneinstagram.extensions.getProfileImageByUid
 import com.example.cloneinstagram.model.ContentDTO
-import com.example.cloneinstagram.model.FirebaseRepository
 import com.example.cloneinstagram.model.FirebaseRepository.uid
 import kotlinx.android.synthetic.main.item_comment.view.*
-import org.w3c.dom.Text
+
 
 class CommentRecyclerAdapter(
     private val comments: ArrayList<ContentDTO.Comment>
@@ -40,8 +37,8 @@ class CommentRecyclerAdapter(
         fun bind(comments: ArrayList<ContentDTO.Comment>) {
             val context = itemView.context
             profileImageView.getProfileImageByUid(uid)
-            idTextView.text = context.resources.getString(R.string.comment_text, comments.comment)
-            commentTextView.text = context.resources.getString(R.string.comment_userId, comments.userId)
+            idTextView.text = context.resources.getString(R.string.comment_text, comments[adapterPosition].comment)
+            commentTextView.text = context.resources.getString(R.string.comment_userId, comments[adapterPosition].userId)
 
         }
 

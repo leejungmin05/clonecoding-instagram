@@ -20,8 +20,8 @@ class CommentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comment)
-        contentUid = intent.getStringExtra("contentUid")
-        destinationUid = intent.getStringExtra("destinationUid")
+        contentUid = intent.getStringExtra(CONTENTUID)
+        destinationUid = intent.getStringExtra(DESTINATIONUID)
         comment_recyclerView.adapter = recyclerViewAdapter
         comment_recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -34,7 +34,7 @@ class CommentActivity : AppCompatActivity() {
         }
     }
 
-    private var comments: MutableList<ContentDTO.Comment> = mutableListOf()
+    private val comments: MutableList<ContentDTO.Comment> = mutableListOf()
 
     private fun getComUidDataList() {
         FirebaseRepository.getComUidDataList(contentUid.toString()) { commentList ->
@@ -45,6 +45,10 @@ class CommentActivity : AppCompatActivity() {
         }
 
     }
+
+    private val CONTENTUID = "contentUid"
+    private val DESTINATIONUID = "destinationUid"
+
 }
 
 
