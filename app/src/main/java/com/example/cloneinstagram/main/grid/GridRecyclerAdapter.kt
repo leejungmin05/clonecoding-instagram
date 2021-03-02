@@ -17,14 +17,11 @@ class GridRecyclerAdapter(
 ) : RecyclerView.Adapter<GridRecyclerAdapter.CustomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        val width = parent.context.resources.displayMetrics.widthPixels / 3
-        val mainImageView = ImageView(parent.context)
-        mainImageView.layoutParams = LinearLayoutCompat.LayoutParams(width, width)
         return CustomViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.bind(contentDTOs[position])
+        holder.bind(contentDTOs)
     }
 
     override fun getItemCount(): Int {
@@ -32,12 +29,14 @@ class GridRecyclerAdapter(
     }
 
     class CustomViewHolder private constructor(holder: View) : RecyclerView.ViewHolder(holder) {
-        fun bind(contentDTO: ContentDTO) {
-            val context = itemView.context
-
-            Glide.with(context).load(contentDTO.imageUrl)
+        val context = itemView.context
+        val mainImageView = ImageView(context)
+        var width: Int = context.resources.displayMetrics.widthPixels / 3
+        fun bind(contentDTOs: ArrayList<ContentDTO>) {
+            mainImageView.layoutParams = LinearLayoutCompat.LayoutParams(width, width)
+            Glide.with(context).load(contentDTOs[adapterPosition].imageUrl)
                 .apply(RequestOptions().centerCrop())
-                .into(ImageView(context))
+                .into(mainImageView)
         }
 
         companion object {
